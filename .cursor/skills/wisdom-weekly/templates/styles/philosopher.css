@@ -1,0 +1,55 @@
+/* 哲学家风格 — 深沉、庄重、永恒感
+   适用：Marcus Aurelius, Seneca, Epictetus, Viktor Frankl, Ryan Holiday */
+
+:root {
+  --font-heading: "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Source Serif Pro", "Georgia", "Songti SC", serif;
+  --font-zh-heading: "Songti SC", "SimSun", serif;
+  --zh-heading-weight: 600;
+
+  --color-bg: #1a1a1a;
+  --color-text: #e8e0d4;
+  --color-text-secondary: #a09888;
+  --color-accent: #c9a96e;
+  --color-border: rgba(201, 169, 110, 0.2);
+
+  --cover-bg: #1a1a1a;
+  --cover-text: #e8e0d4;
+
+  --insight-bg: rgba(201, 169, 110, 0.06);
+  --page-padding: 50px 55px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+
+.cover {
+  background: linear-gradient(170deg, #1a1a1a 0%, #2a2218 100%);
+}
+
+.cover .divider {
+  background: var(--color-accent);
+  opacity: 0.6;
+}
+
+.cover .person-name-zh {
+  color: var(--color-accent);
+}
+
+.core-insight {
+  border-left-color: var(--color-accent);
+  background: var(--insight-bg);
+  border-radius: 0;
+}
+
+.core-insight .quote {
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+.section-divider::before {
+  content: "· · ·";
+}
+
+.page {
+  background: var(--color-bg);
+}

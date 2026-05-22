@@ -1,0 +1,87 @@
+/* 中国古典风格 — 水墨意境、文人气质、典雅留白
+   适用：王阳明, 曾国藩 */
+
+:root {
+  --font-heading: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-body: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-zh-heading: "Noto Serif SC", "Songti SC", serif;
+  --zh-heading-weight: 700;
+
+  --color-bg: #f5f0e8;
+  --color-text: #2c2c2c;
+  --color-text-secondary: #6b6356;
+  --color-accent: #8b4513;
+  --color-border: rgba(139, 69, 19, 0.15);
+
+  --cover-bg: #f5f0e8;
+  --cover-text: #2c2c2c;
+
+  --insight-bg: rgba(139, 69, 19, 0.04);
+  --page-padding: 55px 60px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+.cover {
+  background: linear-gradient(180deg, #f5f0e8 0%, #ebe4d6 100%);
+}
+
+.cover .series-tag {
+  letter-spacing: 10px;
+  color: var(--color-accent);
+  opacity: 0.6;
+}
+
+.cover .person-name-zh {
+  font-size: 52px;
+  letter-spacing: 24px;
+  color: var(--color-accent);
+}
+
+.cover .person-name-en {
+  font-size: 14px;
+  opacity: 0.4;
+}
+
+.cover .divider {
+  background: var(--color-accent);
+  width: 80px;
+  opacity: 0.3;
+}
+
+.core-insight {
+  border-left: 2px solid var(--color-accent);
+  background: var(--insight-bg);
+  padding: 24px 28px;
+}
+
+.core-insight .quote {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.chapter-label {
+  color: var(--color-accent);
+}
+
+.chapter-title-zh {
+  font-size: 24px;
+  letter-spacing: 6px;
+}
+
+.original-text .content {
+  font-size: 13px;
+  line-height: 2;
+}
+
+.section-divider::before {
+  content: "◇";
+}
+
+.page {
+  background: var(--color-bg);
+}
+
+.insight-body {
+  line-height: 2.2;
+}

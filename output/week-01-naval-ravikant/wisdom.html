@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳瓦尔·拉维坎特 — Wisdom Weekly</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --font-heading: "Inter", "Helvetica Neue", "Arial", sans-serif;
+    --font-body: "Inter", "Helvetica Neue", "PingFang SC", sans-serif;
+    --font-zh-heading: "PingFang SC", "Microsoft YaHei", sans-serif;
+
+    --color-bg: #fafafa;
+    --color-text: #1a1a2e;
+    --color-text-secondary: #6b7280;
+    --color-accent: #2563eb;
+    --color-border: #e5e7eb;
+
+    --cover-bg: #0f172a;
+    --cover-text: #f1f5f9;
+    --insight-bg: #f0f4ff;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 45px 50px;
+    position: relative;
+    page-break-after: always;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page:last-child {
+    page-break-after: auto;
+  }
+
+  /* ===== 封面 ===== */
+  .cover {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #334155 100%);
+    color: var(--cover-text);
+    padding: 60px;
+  }
+
+  .cover .series-tag {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 60px;
+  }
+
+  .cover .person-name-en {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .cover .person-name-zh {
+    font-family: var(--font-zh-heading);
+    font-size: 42px;
+    letter-spacing: 12px;
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+
+  .cover .tagline {
+    font-family: var(--font-body);
+    font-size: 14px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+    margin-bottom: 50px;
+  }
+
+  .cover .subtitle {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    line-height: 1.8;
+    opacity: 0.6;
+    max-width: 400px;
+  }
+
+  .cover .divider {
+    width: 40px;
+    height: 3px;
+    background: var(--color-accent);
+    margin: 30px auto;
+    opacity: 1;
+  }
+
+  .cover .person-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-top: auto;
+  }
+
+  /* ===== 概览页 ===== */
+  .overview {
+    padding: 60px 50px;
+  }
+
+  .overview .book-title {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+  }
+
+  .overview .book-title-zh {
+    font-family: var(--font-zh-heading);
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  .overview .book-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+  }
+
+  .overview .book-meta {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    margin-bottom: 40px;
+  }
+
+  /* ===== 章节页 ===== */
+  .chapter {
+    padding: 50px;
+  }
+
+  .chapter-header {
+    margin-bottom: 30px;
+  }
+
+  .chapter-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+
+  .chapter-title-en {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .chapter-title-zh {
+    font-family: var(--font-zh-heading);
+    font-size: 22px;
+    letter-spacing: 4px;
+    font-weight: 500;
+  }
+
+  .insight-section {
+    margin-bottom: 28px;
+  }
+
+  .insight-title {
+    font-family: var(--font-zh-heading);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-text);
+  }
+
+  .insight-body {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--color-text);
+    text-align: justify;
+  }
+
+  .insight-body p {
+    margin-bottom: 12px;
+  }
+
+  .core-insight {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-left: 3px solid var(--color-accent);
+    background: var(--insight-bg);
+    border-radius: 4px;
+  }
+
+  .core-insight .label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+  }
+
+  .core-insight .quote {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.8;
+    font-style: italic;
+    color: var(--color-text);
+  }
+
+  .original-text {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .original-text .label {
+    font-family: var(--font-heading);
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+  }
+
+  .original-text .content {
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    text-align: justify;
+  }
+
+  .section-divider {
+    text-align: center;
+    margin: 24px 0;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    letter-spacing: 6px;
+  }
+
+  .page-number {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+  }
+
+  /* ===== 尾页 ===== */
+  .ending {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px;
+    background: var(--color-bg);
+  }
+
+  .ending .series-name {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 30px;
+  }
+
+  .ending .week-info {
+    font-family: var(--font-zh-heading);
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    margin-bottom: 40px;
+  }
+
+  .ending .next-preview {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  .ending .next-preview strong {
+    color: var(--color-text);
+  }
+</style>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="page cover">
+  <div class="series-tag">W I S D O M &nbsp; C O L L E C T I O N</div>
+  <div class="person-name-en">NAVAL RAVIKANT</div>
+  <div class="person-name-zh">纳 瓦 尔 的 智 慧</div>
+  <div class="divider"></div>
+  <div class="tagline">On Happiness, Freedom, Wealth & the Art of Living</div>
+  <div class="subtitle">硅谷哲人 Naval Ravikant 的智慧精华<br>关于幸福、自由、财富与人生的深度思考</div>
+  <div class="person-label">N A V A L &nbsp; R A V I K A N T</div>
+</div>
+
+<!-- 概览页 -->
+<div class="page overview">
+  <div class="book-title">The Almanack of Naval Ravikant</div>
+  <div class="book-title-zh">纳 瓦 尔 宝 典</div>
+  <div class="book-desc">关于幸福、自由、财富与人生的深度思考</div>
+  <div class="book-desc">硅谷哲人 Naval Ravikant 的智慧精华</div>
+  <div class="book-meta">精华解读 + 英文原文对照</div>
+</div>
+
+<!-- 第一章：幸福是一种选择 -->
+<div class="page chapter">
+  <div class="chapter-header">
+    <div class="chapter-label">CHAPTER ONE</div>
+    <div class="chapter-title-en">Happiness Is a Choice</div>
+    <div class="chapter-title-zh">幸福是一种选择</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">从零开始的勇气</div>
+    <div class="insight-body">
+      <p>真正伟大的人，愿意一次又一次地押注自己。他不在乎被视为成功还是失败——关键是，他永远愿意从头再来。</p>
+      <p>很多人一旦获得成功、财富或名声，就停滞不前了。他们不愿意回到零点。但创造任何伟大的事物，都需要经历从零到一的过程。回到零点，是痛苦的，也是艰难的。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">"Creating anything great requires zero to one. And that means you go back to zero — and that's really painful and hard to do."</div>
+  </div>
+
+  <div class="original-text">
+    <div class="label">&gt;&gt; O R I G I N A L &nbsp; T E X T</div>
+    <div class="content">He's willing to put it all in. Back himself again each time. But the key thing is he's always willing to start over, right? Even now when he's sort of made his new startup, he's basically trying to fix it like he would fix one of his startups. And I think that is a willingness to look like a fool and that is a willingness to start over. And a lot of people just don't have that. They become successful or they become rich or they become famous and that's it. They're stuck. They don't want to go back to zero. And creating anything great requires zero to one. And that means you go back to zero and that's really painful and hard to do.</div>
+  </div>
+
+  <div class="page-number">1</div>
+</div>
+
+<!-- 第一章续：聪明人为什么不快乐 -->
+<div class="page chapter">
+  <div class="chapter-header">
+    <div class="chapter-label">CHAPTER ONE</div>
+    <div class="chapter-title-en">Happiness Is a Choice</div>
+    <div class="chapter-title-zh">幸福是一种选择</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">聪明人为什么不快乐？</div>
+    <div class="insight-body">
+      <p>如果你在任何时刻都过得不开心，你其实没有在帮任何人的忙。很多人已经习惯了默默忍受痛苦，对生活质量的期望值极低。</p>
+      <p>大量的痛苦是自我暗示的结果——你以为受苦是光荣的，以为它能让你成为更好的人。但现实是：你可以既聪明又快乐。历史上有很多既聪明又快乐的人。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">"If you're so smart, why aren't you happy? Why can't you figure that one out?"</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">快乐始于一个决定</div>
+    <div class="insight-body">
+      <p>幸福在很大程度上是一种选择。首先，你要认定自己将成为一个快乐的人，然后沿途去弄明白怎么做到。你不会因此失去野心或对成功的渴望——你只是会去做那些与快乐版本的你更一致的事情。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">"The happy version of you is not going to look back at the unhappy version and say 'Oh man, I wish I was him.' You're actually trying to be successful so you'll be happy — that's the whole point."</div>
+  </div>
+
+  <div class="page-number">2</div>
+</div>
+
+<!-- 第二章：自由、平静与内在博弈 -->
+<div class="page chapter">
+  <div class="chapter-header">
+    <div class="chapter-label">CHAPTER TWO</div>
+    <div class="chapter-title-en">Freedom, Peace & the Inner Game</div>
+    <div class="chapter-title-zh">自由、平静与内在博弈</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">自由的代价</div>
+    <div class="insight-body">
+      <p>自由是有代价的。你必须有能力负担得起它，你必须把生活安排成能够拥有那种程度的自由。大多数人做不到——他们有义务、责任、工作、孩子、房贷。</p>
+      <p>这不是给所有人的建议，但它值得追求：减少那些不必要地把你锁定在特定时间和地点的承诺。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">"I never want to have to be at a specific place at a specific time." — That's freedom.</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">停止反应，开始行动</div>
+    <div class="insight-body">
+      <p>很多人一辈子都在反应中度过。醒来就看手机、查邮件、查消息——立刻进入被动模式。整天都被别人的优先事项所支配。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">最简单的方法：早上至少留一段时间不看任何东西。给自己时间思考、反省、决定你想做什么——在世界告诉你该做什么之前。</div>
+  </div>
+
+  <div class="page-number">3</div>
+</div>
+
+<!-- 第二章续：痛苦与环境 -->
+<div class="page chapter">
+  <div class="chapter-header">
+    <div class="chapter-label">CHAPTER TWO</div>
+    <div class="chapter-title-en">Freedom, Peace & the Inner Game</div>
+    <div class="chapter-title-zh">自由、平静与内在博弈</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">痛苦是自我创造的</div>
+    <div class="insight-body">
+      <p>人们没有意识到他们的大部分痛苦是自己创造的。它是叙事，是解读，是你对刚才发生的事情讲给自己的故事。</p>
+      <p>有人在路上别了你的车，你创造了一整套关于不尊重、愤怒和不公正的故事。但它只是一辆车换了个车道，仅此而已。如果你能开始观察这个过程，你就能开始从中抽离。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">"Your first reaction is not the best reaction. It's just the fastest one. Slowing down, creating a little bit of space between stimulus and response — that's where freedom lies."</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">环境塑造你</div>
+    <div class="insight-body">
+      <p>人们低估了环境对自己的塑造力。你和谁在一起、读什么、看什么、听什么——所有这些都在给你编程。</p>
+      <p>如果你总是和消极的人在一起，你就会变得更消极。仔细策划你的环境——这是你能做的最高杠杆的事情之一。</p>
+    </div>
+  </div>
+
+  <div class="original-text">
+    <div class="label">&gt;&gt; O R I G I N A L &nbsp; T E X T</div>
+    <div class="content">Another thing is people underestimate how much their environment shapes them. Who you spend time with, what you read, what you watch, what you listen to — all of that programs you. So if you're constantly around negative people, guess what? You're going to become more negative. If you're constantly consuming outrage news, you're going to become more outraged. It's not complicated. So curate your environment carefully. It's one of the highest leverage things you can do.</div>
+  </div>
+
+  <div class="page-number">4</div>
+</div>
+
+<!-- 第三章：地位游戏与真实 -->
+<div class="page chapter">
+  <div class="chapter-header">
+    <div class="chapter-label">CHAPTER THREE</div>
+    <div class="chapter-title-en">The Status Trap & Authenticity</div>
+    <div class="chapter-title-zh">地位陷阱与真实的力量</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">地位游戏的陷阱</div>
+    <div class="insight-body">
+      <p>地位是相对的，是零和博弈——你的地位提高，意味着别人的地位降低。财富则不同，它可以是正和的，你可以创造更多。</p>
+      <p>如果你一生都在追逐地位，你就会陷入永恒的比较循环。总有人更富、更聪明、更好看、更成功。你永远赢不了那个游戏。但如果你专注于创造财富、建造事物、创造价值——那是一个你真正能赢的游戏。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">即使你有了钱，下一个陷阱是名声。名声更糟糕，因为现在每个人都对你有看法。如果你开始相信那些看法，你就失去了自己——那是一座监狱。</div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-title">真实是被爱的方式</div>
+    <div class="insight-body">
+      <p>归根结底，大多数人只是想被爱和被接受。但他们用错了方式——试图给别人留下印象、展示地位、融入群体。</p>
+      <p>真正被爱的方式是做真实的自己。但真实是有风险的，因为不是每个人都会喜欢你。所以你必须选择：你想被所有人喜欢，还是被少数人深爱？你不可能两者兼得。</p>
+    </div>
+  </div>
+
+  <div class="core-insight">
+    <div class="label">C O R E &nbsp; I N S I G H T</div>
+    <div class="quote">谨慎选择你听谁的建议。如果一个人不在你想去的地方，你为什么要听他的建议？即使是过来人的经验，对你也未必适用。最终，你必须自己思考。</div>
+  </div>
+
+  <div class="page-number">5</div>
+</div>
+
+<!-- 尾页 -->
+<div class="page ending">
+  <div class="series-name">W I S D O M &nbsp; W E E K L Y</div>
+  <div class="week-info">第 1 期 · 纳瓦尔·拉维坎特</div>
+  <div class="next-preview">
+    下期预告<br>
+    <strong>查理·芒格 — 多元思维模型大师</strong>
+  </div>
+</div>
+
+</body>
+</html>

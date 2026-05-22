@@ -1,0 +1,12 @@
+{
+  "name": "wisdom-weekly-scripts",
+  "version": "1.0.0",
+  "description": "智者周刊 PDF 生成工具",
+  "private": true,
+  "scripts": {
+    "generate": "node generate-pdf.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}

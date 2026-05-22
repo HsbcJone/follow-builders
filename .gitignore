@@ -1,4 +1,11 @@
-scripts/node_modules/
+# Dependencies
+node_modules/
+.cursor/skills/wisdom-weekly/scripts/node_modules/
+
+# Environment
 .env
 *.log
+
+# OS / IDE
 .DS_Store
+.idea/

@@ -1,0 +1,79 @@
+/* 现代思想家风格 — 极简、理性、大字排版、黑白为主
+   适用：Nassim Taleb, Charlie Munger, Ray Dalio, Morgan Housel, James Clear,
+         Kevin Kelly, Tim Ferriss, Seth Godin, Derek Sivers, Shane Parrish,
+         Richard Feynman, 李录, 罗翔, 冯仑 */
+
+:root {
+  --font-heading: "DM Sans", "Helvetica Neue", sans-serif;
+  --font-body: "DM Sans", "Helvetica Neue", "PingFang SC", sans-serif;
+  --font-zh-heading: "PingFang SC", "Microsoft YaHei", sans-serif;
+  --zh-heading-weight: 600;
+
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-text-secondary: #777777;
+  --color-accent: #111111;
+  --color-border: #e0e0e0;
+
+  --cover-bg: #111111;
+  --cover-text: #ffffff;
+
+  --insight-bg: #f7f7f7;
+  --page-padding: 50px 55px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
+.cover {
+  background: #111111;
+}
+
+.cover .person-name-zh {
+  font-size: 48px;
+  letter-spacing: 14px;
+  font-weight: 600;
+}
+
+.cover .divider {
+  background: #ffffff;
+  width: 50px;
+  height: 2px;
+}
+
+.cover .series-tag {
+  opacity: 0.4;
+}
+
+.core-insight {
+  border-left: 4px solid #111111;
+  background: var(--insight-bg);
+  border-radius: 0;
+}
+
+.core-insight .label {
+  color: #111111;
+  font-weight: 700;
+}
+
+.core-insight .quote {
+  font-weight: 500;
+  font-style: normal;
+  font-size: 15px;
+}
+
+.chapter-title-en {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.chapter-title-zh {
+  font-size: 20px;
+}
+
+.section-divider::before {
+  content: "—";
+}
+
+.page {
+  background: var(--color-bg);
+}

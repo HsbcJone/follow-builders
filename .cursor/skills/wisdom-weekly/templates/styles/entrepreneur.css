@@ -1,0 +1,57 @@
+/* 企业家/硅谷风格 — 现代、科技感、清晰
+   适用：Naval, Paul Graham, Sam Altman, Peter Thiel, 段永平, 张一鸣, 任正非, 王兴, 傅盛 */
+
+:root {
+  --font-heading: "Inter", "Helvetica Neue", "Arial", sans-serif;
+  --font-body: "Inter", "Helvetica Neue", "PingFang SC", sans-serif;
+  --font-zh-heading: "PingFang SC", "Microsoft YaHei", sans-serif;
+  --zh-heading-weight: 500;
+
+  --color-bg: #fafafa;
+  --color-text: #1a1a2e;
+  --color-text-secondary: #6b7280;
+  --color-accent: #2563eb;
+  --color-border: #e5e7eb;
+
+  --cover-bg: #0f172a;
+  --cover-text: #f1f5f9;
+
+  --insight-bg: #f0f4ff;
+  --page-padding: 45px 50px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.cover {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #334155 100%);
+}
+
+.cover .person-name-zh {
+  letter-spacing: 12px;
+  font-weight: 500;
+}
+
+.cover .divider {
+  background: var(--color-accent);
+  width: 40px;
+  height: 3px;
+  opacity: 1;
+}
+
+.core-insight {
+  border-left: 3px solid var(--color-accent);
+  background: var(--insight-bg);
+  border-radius: 4px;
+}
+
+.chapter-title-en {
+  font-weight: 600;
+}
+
+.section-divider::before {
+  content: "—";
+}
+
+.page {
+  background: var(--color-bg);
+}

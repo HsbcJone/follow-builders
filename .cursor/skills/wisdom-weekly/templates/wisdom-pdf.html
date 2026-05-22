@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PERSON_NAME_ZH}} — Wisdom Weekly</title>
+<link rel="stylesheet" href="styles/{{STYLE_FILE}}.css">
+<style>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: var(--page-padding, 40px 50px);
+    position: relative;
+    page-break-after: always;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page:last-child {
+    page-break-after: auto;
+  }
+
+  /* ===== 封面 ===== */
+  .cover {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: var(--cover-bg);
+    color: var(--cover-text);
+    padding: 60px;
+  }
+
+  .cover .series-tag {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 60px;
+  }
+
+  .cover .person-name-en {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .cover .person-name-zh {
+    font-family: var(--font-zh-heading);
+    font-size: 42px;
+    letter-spacing: 16px;
+    margin-bottom: 30px;
+    font-weight: var(--zh-heading-weight, 400);
+  }
+
+  .cover .tagline {
+    font-family: var(--font-body);
+    font-size: 14px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+    margin-bottom: 50px;
+  }
+
+  .cover .subtitle {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    line-height: 1.8;
+    opacity: 0.6;
+    max-width: 400px;
+  }
+
+  .cover .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--color-accent);
+    margin: 30px auto;
+    opacity: 0.5;
+  }
+
+  .cover .person-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-top: auto;
+  }
+
+  /* ===== 目录/概览页 ===== */
+  .overview {
+    padding: 60px 50px;
+  }
+
+  .overview .book-title {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+  }
+
+  .overview .book-title-zh {
+    font-family: var(--font-zh-heading);
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+    font-weight: var(--zh-heading-weight, 400);
+  }
+
+  .overview .book-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+  }
+
+  .overview .book-meta {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    margin-bottom: 40px;
+  }
+
+  /* ===== 章节页 ===== */
+  .chapter {
+    padding: 50px;
+  }
+
+  .chapter-header {
+    margin-bottom: 30px;
+  }
+
+  .chapter-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+
+  .chapter-title-en {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .chapter-title-zh {
+    font-family: var(--font-zh-heading);
+    font-size: 22px;
+    letter-spacing: 4px;
+    font-weight: var(--zh-heading-weight, 400);
+  }
+
+  /* 洞察内容 */
+  .insight-section {
+    margin-bottom: 28px;
+  }
+
+  .insight-title {
+    font-family: var(--font-zh-heading);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-text);
+  }
+
+  .insight-body {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--color-text);
+    text-align: justify;
+  }
+
+  .insight-body p {
+    margin-bottom: 12px;
+  }
+
+  /* 核心洞察高亮框 */
+  .core-insight {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-left: 3px solid var(--color-accent);
+    background: var(--insight-bg, transparent);
+  }
+
+  .core-insight .label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+  }
+
+  .core-insight .quote {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.8;
+    font-style: italic;
+    color: var(--color-text);
+  }
+
+  /* 原文区域 */
+  .original-text {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .original-text .label {
+    font-family: var(--font-heading);
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+  }
+
+  .original-text .content {
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    text-align: justify;
+  }
+
+  /* 章节分隔 */
+  .section-divider {
+    text-align: center;
+    margin: 24px 0;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    letter-spacing: 6px;
+  }
+
+  /* 页码 */
+  .page-number {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+  }
+
+  /* ===== 尾页 ===== */
+  .ending {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px;
+  }
+
+  .ending .series-name {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 30px;
+  }
+
+  .ending .week-info {
+    font-family: var(--font-zh-heading);
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    margin-bottom: 40px;
+  }
+
+  .ending .next-preview {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  .ending .next-preview strong {
+    color: var(--color-text);
+  }
+</style>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="page cover">
+  <div class="series-tag">W I S D O M &nbsp; C O L L E C T I O N</div>
+  <div class="person-name-en">{{PERSON_NAME}}</div>
+  <div class="person-name-zh">{{PERSON_NAME_ZH}}</div>
+  <div class="divider"></div>
+  <div class="tagline">{{TAGLINE}}</div>
+  <div class="subtitle">{{SUBTITLE}}</div>
+  <div class="person-label">{{PERSON_NAME}}</div>
+</div>
+
+<!-- 概览页 -->
+<div class="page overview">
+  <div class="book-title">{{OVERVIEW_LABEL}}</div>
+  <div class="book-title-zh">{{OVERVIEW_TITLE_ZH}}</div>
+  <div class="book-desc">{{OVERVIEW_DESC}}</div>
+  <div class="book-meta">{{OVERVIEW_META}}</div>
+</div>
+
+<!-- 章节页（由 AI 填充，可重复此结构） -->
+{{CHAPTER_PAGES}}
+
+<!-- 尾页 -->
+<div class="page ending">
+  <div class="series-name">W I S D O M &nbsp; W E E K L Y</div>
+  <div class="week-info">第 {{WEEK_NUMBER}} 期 · {{PERSON_NAME_ZH}}</div>
+  <div class="next-preview">
+    下期预告<br>
+    <strong>{{NEXT_PERSON}}</strong>
+  </div>
+</div>
+
+</body>
+</html>
