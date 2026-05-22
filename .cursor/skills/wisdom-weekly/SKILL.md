@@ -25,6 +25,11 @@ description: >-
 - `/publish-xhs` — 发布当前期到小红书
 - `/publish-xhs preview` — 仅生成小红书文案草稿
 
+生成视频（视频号/抖音手动上传，见 `generate-weekly-video` skill）：
+
+- `/generate-video` — 将本期 page-*.png 合成 `wisdom-video.mp4`
+- `/generate-video week-01` — 指定期数目录
+
 ## 工作流
 
 ### Step 1: 确定本周人物
@@ -96,6 +101,8 @@ node .cursor/skills/wisdom-weekly/scripts/generate-pdf.js output/week-XX-人名/
 输出生成结果的路径，展示 PDF 封面预览。
 
 可选：提示用户执行 `/publish-xhs preview` 生成小红书文案，审阅后用 `/publish-xhs` 发布（需 xiaohongshu-mcp 运行中）。
+
+发完小红书/公众号后，可提示 `/generate-video` 合成 `wisdom-video.mp4`，供视频号助手手动上传。
 
 ## 配置
 

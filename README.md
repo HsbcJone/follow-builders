@@ -12,6 +12,7 @@
 /wisdom [人名]       # 指定人物
 /publish-xhs preview # 生成小红书文案（不发布）
 /publish-xhs         # 发布到小红书
+/generate-video      # 合成视频号用 MP4（手动上传）
 ```
 
 ### 目录结构
@@ -23,7 +24,9 @@ follow-builders/
 │       ├── wisdom.pdf
 │       ├── page-01.png …
 │       ├── wechat-article.md
-│       └── xiaohongshu-post.md          # 小红书文案
+│       ├── xiaohongshu-post.md          # 小红书文案
+│       ├── wisdom-video.mp4             # 视频号/抖音（/generate-video）
+│       └── channels-video-post.md       # 视频发布文案与清单
 ├── tools/xiaohongshu-mcp/               # MCP 本地服务（setup 后）
 └── .cursor/
     ├── mcp.json                         # 小红书 MCP 配置
@@ -72,6 +75,26 @@ node .cursor/skills/wisdom-weekly/scripts/publish-to-xhs.js week-01-naval-ravika
 - 标题 ≤20 字，正文 ≤1000 字
 - 勿在其他网页同时登录同一小红书账号
 - 建议专用号、控制发帖频率
+
+## 生成视频（视频号 / 抖音）
+
+每期 PNG 卡片合成为竖屏 MP4，**不自动发布**，你在 [视频号助手](https://channels.weixin.qq.com/) 自行上传。
+
+依赖：
+
+```bash
+brew install ffmpeg edge-tts
+bash tools/video-assets/create-default-bgm.sh
+```
+
+```bash
+node .cursor/skills/wisdom-weekly/scripts/generate-video.js week-01-naval-ravikant
+# 每页 5 秒：--seconds 5 | 无声：--no-audio
+```
+
+可选：编辑 `output/week-XX/video-narration.txt` 后重跑以更换旁白；BGM 可放 `tools/video-assets/custom-bgm.mp3`。
+
+Cursor 中：`/generate-video` 或 `/generate-video week-01-naval-ravikant`
 
 ## 轮转
 
