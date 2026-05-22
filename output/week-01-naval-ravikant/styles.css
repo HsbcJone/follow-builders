@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{PERSON_NAME_ZH}} — Wisdom Weekly</title>
-<link rel="stylesheet" href="styles/{{STYLE_FILE}}.css">
-<style>
+
   @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap");
 
   @page { size: A4; margin: 0; }
@@ -457,57 +450,75 @@
     color: var(--color-accent);
     margin-top: 8px;
   }
-</style>
-</head>
-<body>
 
-<div class="page cover">
-  <div class="series-tag">Wisdom Collection</div>
-  <div class="series-tag-zh">智 者 收 藏</div>
-  <div class="person-name-en">{{PERSON_NAME}}</div>
-  <div class="person-name-zh">{{PERSON_NAME_ZH}}</div>
-  <div class="divider"></div>
-  <div class="tagline">{{TAGLINE_EN}}</div>
-  <div class="subtitle">{{SUBTITLE_ZH}}</div>
-  <div class="week-badge">Week {{WEEK_NUMBER}} · 第 {{WEEK_NUMBER}} 期</div>
-</div>
+/* 企业家/硅谷 — 暖色纸感、金棕点缀、双语杂志风 */
 
-<div class="page overview">
-  <div class="page-masthead">
-    <div>
-      <div class="brand">Wisdom Weekly</div>
-      <div class="brand-zh">智者周刊</div>
-    </div>
-    <div>
-      <div class="chapter-mini">Overview</div>
-      <div class="chapter-mini-zh">本期概览</div>
-    </div>
-  </div>
-  <div class="overview-hero">
-    <div class="book-title-en">{{OVERVIEW_TITLE_EN}}</div>
-    <div class="book-title-zh">{{OVERVIEW_TITLE_ZH}}</div>
-    <div class="book-desc-en">{{OVERVIEW_DESC_EN}}</div>
-    <div class="book-desc-zh">{{OVERVIEW_DESC_ZH}}</div>
-  </div>
-  {{TOC_ITEMS}}
-  <div class="overview-note">
-    精华解读 + 英文原文对照 · 每页中英双语呈现
-    <div class="en">Curated insights with bilingual Chinese–English on every page.</div>
-  </div>
-</div>
+:root {
+  --font-en-display: "Cormorant Garamond", "Georgia", serif;
+  --font-en-body: "Source Serif 4", "Georgia", serif;
+  --font-zh: "Noto Serif SC", "Songti SC", "STSong", serif;
 
-{{CHAPTER_PAGES}}
+  --color-bg: #f9f7f4;
+  --color-paper: #fffefb;
+  --color-text: #2c2825;
+  --color-text-en: #4a4540;
+  --color-text-muted: #7a746c;
+  --color-accent: #9a7b4f;
+  --color-accent-light: #c9a962;
+  --color-border: #e8e4dd;
+  --color-border-strong: #d4cec4;
 
-<div class="page ending">
-  <div class="series-en">Wisdom Weekly</div>
-  <div class="series-zh">智 者 周 刊</div>
-  <div class="week-info">第 {{WEEK_NUMBER}} 期 · {{PERSON_NAME_ZH}}</div>
-  <div class="week-info-en">Issue {{WEEK_NUMBER}} · {{PERSON_NAME}}</div>
-  <div class="next-label">下期预告</div>
-  <div class="next-label-en">Coming Next</div>
-  <div class="next-name">{{NEXT_PERSON_ZH}}</div>
-  <div class="next-name-en">{{NEXT_PERSON_EN}}</div>
-</div>
+  --cover-bg: #141210;
+  --cover-text: #f5f0e6;
+  --insight-bg: linear-gradient(135deg, #faf8f3 0%, #f3efe6 100%);
+  --page-padding: 48px 52px 56px;
+  --zh-heading-weight: 600;
+}
 
-</body>
-</html>
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap");
+
+.cover {
+  background: radial-gradient(ellipse at 30% 20%, #2a2620 0%, #141210 55%, #0d0c0a 100%);
+}
+
+.cover .series-tag {
+  margin-bottom: 8px;
+}
+
+.cover .series-tag-zh {
+  margin-bottom: 40px;
+}
+
+.cover .person-name-zh {
+  color: var(--color-accent-light);
+  letter-spacing: 0.35em;
+}
+
+.cover .divider {
+  background: linear-gradient(90deg, transparent, var(--color-accent-light), transparent);
+  width: 72px;
+  height: 2px;
+  opacity: 0.9;
+}
+
+.cover .tagline {
+  font-family: var(--font-en-display);
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
+.page.chapter,
+.page.overview {
+  background: var(--color-bg);
+}
+
+.page.chapter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+}

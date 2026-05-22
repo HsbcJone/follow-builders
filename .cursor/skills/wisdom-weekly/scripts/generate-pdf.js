@@ -21,9 +21,16 @@ async function generatePDF(htmlPath) {
 
   try {
     const page = await browser.newPage();
+    await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 2 });
 
     const fileUrl = `file://${resolvedPath}`;
-    await page.goto(fileUrl, { waitUntil: "networkidle0", timeout: 30000 });
+    await page.goto(fileUrl, { waitUntil: "networkidle0", timeout: 60000 });
+    await page.evaluate(async () => {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    });
+    await new Promise((r) => setTimeout(r, 800));
 
     await page.pdf({
       path: pdfPath,

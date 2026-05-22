@@ -27,39 +27,22 @@
 每个人物档案的 frontmatter 中有 `style` 字段，直接使用即可。
 生成 HTML 时，将 `{{STYLE_FILE}}` 替换为对应的风格名称。
 
-## 章节页 HTML 模板
+## 双语要求（每页必须）
 
-每个章节页使用以下结构：
+每一页（除封面、尾页外）须包含：
+- 页眉：`Wisdom Weekly` + `智者周刊`，章节英/中标题
+- 洞察标题：中文主标题 + 英文副标题
+- **正文**：每组段落必须「中文 + 英文」成对（国际人物）；见 `.body-pair` 结构
+- 核心洞察框：中文提炼 + 英文原文/金句
+- 页脚：章节中/英 + 页码
 
-```html
-<div class="page chapter">
-  <div class="chapter-header">
-    <div class="chapter-label">CHAPTER [数字]</div>
-    <div class="chapter-title-en">[英文标题]</div>
-    <div class="chapter-title-zh">[中文标题]</div>
-  </div>
+国内人物正文可仅中文；国际人物**禁止**正文只有中文。
 
-  <div class="insight-section">
-    <div class="insight-title">[洞察小标题]</div>
-    <div class="insight-body">
-      <p>[中文解读段落1]</p>
-      <p>[中文解读段落2]</p>
-    </div>
-  </div>
+参考 `templates/chapter-page-snippet.html`。
 
-  <div class="core-insight">
-    <div class="label">C O R E &nbsp; I N S I G H T</div>
-    <div class="quote">[金句]</div>
-  </div>
-
-  <div class="original-text">
-    <div class="label">&gt;&gt; O R I G I N A L &nbsp; T E X T</div>
-    <div class="content">[英文/中文原文]</div>
-  </div>
-
-  <div class="page-number">[页码]</div>
-</div>
-```
+生成 HTML 时：
+1. 将 `templates/wisdom-pdf.html` 中的样式提取为同目录 `styles.css`（与 wisdom.html 同级）
+2. 每页一个主要洞察，避免内容挤版或留白过多
 
 ## 概览页模板
 

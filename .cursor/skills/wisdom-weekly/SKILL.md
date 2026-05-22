@@ -37,13 +37,11 @@ description: >-
 读取 `prompts/extract-wisdom.md`，按指令从档案中提炼 3-5 个深度洞察。
 
 每个洞察包含：
-- 中文主题标题
-- 中文深度解读（2-3 段）
-- 英文/中文原文引用
-- CORE INSIGHT 金句提炼
+- 中英标题
+- **正文**：国际人物每段中文后必须跟对应英文段落（成对）；国内人物仅中文
+- 核心洞察：中文提炼 + 英文/中文原文
 
-对于国际人物：中文解读 + 英文原文
-对于国内人物：中文解读 + 中文原文
+国际人物 PDF 禁止「正文只有中文」——标题和核心洞察有英文但正文无英文视为不合格。
 
 ### Step 4: 生成 PDF
 
@@ -58,8 +56,9 @@ description: >-
    - `{{CHAPTER_PAGES}}` — 章节页 HTML（用模板中的章节结构）
    - `{{WEEK_NUMBER}}` — 期数
    - `{{NEXT_PERSON}}` — 下期人物
-4. 将填充好的 HTML 写入仓库根目录 `output/week-XX-人名/wisdom.html`（路径相对于项目根）
-5. 运行脚本生成 PDF 和 PNG（在**项目根目录**执行）：
+4. 将填充好的 HTML 写入 `output/week-XX-人名/wisdom.html`，并在同目录放置 `styles.css`（从模板提取样式 + 人物对应风格 CSS）
+5. **每页必须中英双语**（标题、**正文段落成对**、核心洞察、页脚），结构见 `templates/chapter-page-snippet.html`
+6. 运行脚本生成 PDF 和 PNG（在**项目根目录**执行）：
 
 ```bash
 node .cursor/skills/wisdom-weekly/scripts/generate-pdf.js output/week-XX-人名/wisdom.html
