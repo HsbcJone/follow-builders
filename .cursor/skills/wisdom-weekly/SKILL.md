@@ -20,6 +20,11 @@ description: >-
 - `/wisdom list` — 查看完整人物名单和进度
 - `/wisdom config` — 查看/修改配置
 
+发布小红书（需先配置 xiaohongshu-mcp，见 `publish-xiaohongshu` skill）：
+
+- `/publish-xhs` — 发布当前期到小红书
+- `/publish-xhs preview` — 仅生成小红书文案草稿
+
 ## 工作流
 
 ### Step 1: 确定本周人物
@@ -89,6 +94,8 @@ node .cursor/skills/wisdom-weekly/scripts/generate-pdf.js output/week-XX-人名/
 ### Step 7: 告知用户
 
 输出生成结果的路径，展示 PDF 封面预览。
+
+可选：提示用户执行 `/publish-xhs preview` 生成小红书文案，审阅后用 `/publish-xhs` 发布（需 xiaohongshu-mcp 运行中）。
 
 ## 配置
 

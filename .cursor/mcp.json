@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "xiaohongshu-mcp": {
+      "url": "http://localhost:18060/mcp",
+      "description": "小红书图文发布 — 需先运行 tools/xiaohongshu-mcp/start.sh"
+    }
+  }
+}

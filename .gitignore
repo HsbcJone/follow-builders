@@ -9,3 +9,9 @@ node_modules/
 # OS / IDE
 .DS_Store
 .idea/
+
+# xiaohongshu-mcp 二进制与登录态（本地安装）
+tools/xiaohongshu-mcp/xiaohongshu-*
+tools/xiaohongshu-mcp/*.tar.gz
+tools/xiaohongshu-mcp/data/
+cookies.json
