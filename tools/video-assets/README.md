@@ -2,11 +2,16 @@
 
 | 文件 | 说明 |
 |------|------|
-| `default-bgm.mp3` | 默认环境 BGM（运行 `create-default-bgm.sh` 生成） |
-| `custom-bgm.mp3` | 可选：放入你自己的 BGM，脚本会优先使用 |
+| **`custom-bgm.mp3`** | **推荐**：真实配乐（古筝/史诗/游戏 OST 等你合法持有的 MP3） |
+| `default-bgm.mp3` | 仅 `--synth-bgm` 时使用的程序合成备用，**不是音乐** |
+| `set-bgm.sh` | 导入并归一化你的 MP3 |
+| `BGM.md` | 大唐豪侠风格、Pixabay 免版权替代、版权说明 |
 
-生成默认 BGM：
+## 快速设置（例如《大唐豪侠》BGM）
 
 ```bash
-bash tools/video-assets/create-default-bgm.sh
+bash tools/video-assets/set-bgm.sh ~/Downloads/你的配乐.mp3
+node .cursor/skills/wisdom-weekly/scripts/generate-video.js week-01-naval-ravikant
 ```
+
+详见 [BGM.md](./BGM.md)。

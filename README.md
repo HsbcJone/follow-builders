@@ -12,6 +12,7 @@
 /wisdom [人名]       # 指定人物
 /publish-xhs preview # 生成小红书文案（不发布）
 /publish-xhs         # 发布到小红书
+/publish-wechat      # 推送到公众号草稿箱
 /generate-video      # 合成视频号用 MP4（手动上传）
 ```
 
@@ -75,6 +76,25 @@ node .cursor/skills/wisdom-weekly/scripts/publish-to-xhs.js week-01-naval-ravika
 - 标题 ≤20 字，正文 ≤1000 字
 - 勿在其他网页同时登录同一小红书账号
 - 建议专用号、控制发帖频率
+
+## 微信公众号自动发布（官方 API）
+
+企业已认证公众号可使用 `/publish-wechat`，将 `wechat-article.md` 推入**草稿箱**。
+
+### 一次性设置
+
+1. 复制 `.env.example` → `.env`，填写 `WECHAT_APP_ID`、`WECHAT_APP_SECRET`
+2. [公众平台](https://mp.weixin.qq.com/) → 基本配置 → **IP 白名单**（填本机公网 IP）
+3. 安装依赖：`npm install --prefix .cursor/skills/wisdom-weekly/scripts`
+
+### 发布
+
+```bash
+node .cursor/skills/wisdom-weekly/scripts/publish-to-wechat.js week-01-naval-ravikant
+node .cursor/skills/wisdom-weekly/scripts/publish-wechat.js week-01-naval-ravikant
+```
+
+Cursor：`/publish-wechat`（默认草稿箱；确认内容后可选 `--submit` 自动发表）
 
 ## 生成视频（视频号 / 抖音）
 

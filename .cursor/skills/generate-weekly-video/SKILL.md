@@ -15,7 +15,7 @@ description: >-
 1. 本期已运行 `generate-pdf.js`，目录内存在 `page-*.png`
 2. 本机已安装 **ffmpeg**：`brew install ffmpeg`
 3. 旁白依赖 **edge-tts CLI**（推荐）：`brew install edge-tts` 或 `pip install edge-tts`
-4. BGM：`bash tools/video-assets/create-default-bgm.sh`（首次）
+4. BGM：**真实 MP3 配乐** → `bash tools/video-assets/set-bgm.sh /path/to/music.mp3`（见 `tools/video-assets/BGM.md`）
 
 ## 触发方式
 
@@ -86,7 +86,7 @@ node .cursor/skills/wisdom-weekly/scripts/generate-video.js week-XX-人名 --sec
 - 分辨率：1080×1440（与 PNG 卡片一致，9:16）
 - 编码：H.264 + AAC 192kbps
 - 旁白：`edge-tts` CLI，`zh-CN-XiaoxiaoNeural`（失败时回退 macOS `say`）
-- BGM：`tools/video-assets/default-bgm.mp3`（可替换为 `custom-bgm.mp3`）
+- BGM：`tools/video-assets/custom-bgm.mp3`（真实音乐；`--bgm` 指定路径；勿用合成噪声除非 `--synth-bgm`）
 - 自定义旁白：编辑 `video-narration.txt` 后重新 `/generate-video`
 - 无声版：`--no-audio`
 

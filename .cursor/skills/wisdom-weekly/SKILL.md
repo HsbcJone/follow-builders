@@ -25,6 +25,11 @@ description: >-
 - `/publish-xhs` — 发布当前期到小红书
 - `/publish-xhs preview` — 仅生成小红书文案草稿
 
+发布公众号（企业已认证 + `.env` 配置 AppSecret，见 `publish-wechat` skill）：
+
+- `/publish-wechat` — 推送到公众号草稿箱
+- `/publish-wechat preview` — 仅校验，不调用 API
+
 生成视频（视频号/抖音手动上传，见 `generate-weekly-video` skill）：
 
 - `/generate-video` — 将本期 page-*.png 合成 `wisdom-video.mp4`
@@ -88,7 +93,9 @@ node .cursor/skills/wisdom-weekly/scripts/generate-pdf.js output/week-XX-人名/
 - 人物介绍（100-150 字）
 - 3-5 个核心洞察（每个洞察：故事引入 → 深度解读 → 原文引用）
 - 串联思考（将多个洞察连成一条线）
-- 「我的思考」（留白段，标记 `[在此添加你的个人感悟]`）
+- 「我的思考」（第一人称短文，必写，见 `wechat-format-rules.md`）
+- 「3 件事」用 **1.** **2.** **3.**（禁止 Markdown 有序列表）
+- 公众号封面由 `publish-wechat` 从 `page-01.png` 自动生成 `wechat-cover.jpg`
 - 行动建议（3 条可执行的建议）
 - 下期预告
 
@@ -102,7 +109,7 @@ node .cursor/skills/wisdom-weekly/scripts/generate-pdf.js output/week-XX-人名/
 
 可选：提示用户执行 `/publish-xhs preview` 生成小红书文案，审阅后用 `/publish-xhs` 发布（需 xiaohongshu-mcp 运行中）。
 
-发完小红书/公众号后，可提示 `/generate-video` 合成 `wisdom-video.mp4`，供视频号助手手动上传。
+发完小红书后，可提示 `/publish-wechat`；再提示 `/generate-video` 合成 `wisdom-video.mp4` 供视频号上传。
 
 ## 配置
 
@@ -137,5 +144,5 @@ iconic_quotes: [标志性语录]
 
 - 所有内容基于 AI 对这些人物公开著作的理解生成，不编造不存在的引言
 - PDF 每页设计为独立卡片，可单独截图用于小红书
-- 公众号文章保留「我的思考」段落，供用户填写个人感悟
+- 每期固定规范详见 **`wechat-format-rules.md`**（封面、我的思考、3件事格式）
 - 国内人物使用中文原文，不做翻译；国际人物保持中英对照

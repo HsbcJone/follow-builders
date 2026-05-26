@@ -6,13 +6,13 @@
 
 ---
 
-## 关于纳瓦尔
+## 关于纳瓦尔 · About Naval Ravikant
 
 Naval Ravikant 是 AngelList 的联合创始人，硅谷最具影响力的天使投资人之一。但与大多数硅谷人不同，他花在思考"如何活着"上的时间，远超"如何赚钱"。他的播客、推文和访谈构成了一套独特的现代人心灵操作系统——将东方冥想哲学与西方理性主义融合，回答两个核心问题：如何不靠出卖时间获得财富？获得财富后，如何找到真正的平静？
 
 ---
 
-## 一、从零开始的勇气
+## 一、从零开始的勇气 · The Courage to Start from Zero
 
 2018 年，Naval 在一次访谈中讲了一个观察：他认识的那些真正伟大的人，都有一个共同特质——他们愿意一次又一次地回到零点。
 
@@ -24,7 +24,7 @@ Naval Ravikant 是 AngelList 的联合创始人，硅谷最具影响力的天使
 
 这个洞察的深层含义是：你对"失去"的恐惧，决定了你人生的天花板。如果你无法承受从头再来的痛苦，你就永远被困在当前的位置上——不是因为你不够聪明，而是因为你不够勇敢。
 
-## 二、聪明人为什么不快乐？
+## 二、聪明人为什么不快乐？ · Why Aren't You Happy If You're So Smart?
 
 Naval 曾抛出一个尖锐的问题："如果你这么聪明，为什么不快乐？你连这个都想不明白吗？"
 
@@ -40,17 +40,25 @@ Naval 的解释是：高智商的人特别容易陷入"心智过度活跃"的陷
 
 我们把因果搞反了。我们以为要先成功，才能快乐。但如果你能先快乐，你会去做那些与你内心一致的事，反而会更成功。
 
-## 三、自由的代价
+## 三、自由的代价 · The Price of Freedom
 
-Naval 有一个朋友曾说过一句话："我永远不想必须在特定的时间出现在特定的地点。"Naval 听到这句话时，感叹道："天哪，这就是自由。"
+Naval 有一个朋友曾说过一句话。Naval 听到时，感叹道：那就是自由。
+
+> "I never want to be in a position where I have to be somewhere at a particular time."
+>
+> Naval's reaction: "That's it. That's freedom."
 
 但自由不是免费的。你必须有能力负担它，你必须把生活安排成能拥有那种自由的结构。大多数人做不到——他们有义务、责任、房贷、孩子。
 
 Naval 自己选择不做风投基金经理（尽管他完全有能力），因为他不想对任何 LP 负责。他选择天使投资，用自己的钱投，赚了亏了都是自己的事。这个决定让他失去了管理费和更大的规模，但换来的是：没有人可以告诉他该做什么。
 
+> "The price of freedom is that you have to structure your life so that you can afford it. Most people can't — they have obligations, mortgages, kids."
+
 还有一个更深层的自由——不被自己的反应控制。很多人醒来第一件事就是看手机、查邮件，立刻进入被动模式。Naval 的建议很简单：早上至少留一段时间什么都不看，给自己时间思考、反省，在世界告诉你该做什么之前，先想清楚你想做什么。
 
-## 四、地位游戏的陷阱
+> "If the first thing you do when you wake up is check your phone, you're already in reactive mode. Give yourself time to think before the world tells you what to do."
+
+## 四、地位游戏的陷阱 · The Status Game Trap
 
 Naval 把世界上的游戏分为两种：财富游戏和地位游戏。
 
@@ -62,15 +70,17 @@ Naval 把世界上的游戏分为两种：财富游戏和地位游戏。
 
 > "Being authentic is risky, because not everyone will like you. So you have to choose: do you want to be liked by everyone, or loved by a few? You can't have both."
 
-## 五、不要过度规划
+## 五、不要过度规划 · Don't Over-Plan Your Life
 
 Naval 的最后一个洞察，也许是最解放的一个：你不需要提前想明白一切。
 
 你不需要人生规划、十年计划、职业路线图。生活更像探索——你尝试、你看什么有效、什么无效，然后调整。那些看起来什么都想明白了的人，通常只是运气好，或者在事后编了一个好故事。
 
+> "You don't need to have your life figured out in advance. Life is more like exploration — you try things, see what works, and adjust."
+
 ---
 
-## 串联思考
+## 串联思考 · Connecting the Dots
 
 回看 Naval 的这五个洞察，它们之间有一条隐藏的线索：**你以为你在追求幸福，但你追求幸福的方式本身就在制造不幸。**
 
@@ -84,17 +94,17 @@ Naval 的答案出奇地简单：停下来。观察你的反应。放下不必�
 
 > **我的思考**
 >
-> [在此添加你的个人感悟——Naval 的哪个观点最触动你？它如何与你当下的生活产生连接？]
+> Naval 那句「如果你这么聪明，为什么不快乐？」我反复读了好几遍。过去我总以为，只要把下一件事做完、把下一个目标追上，心里就会踏实——后来才发现，我是在用「忙碌」逃避「选择」。快乐不该是成功之后的奖品；先把自己调到清醒、平和的状态，反而更容易做对的事。这周我开始实践：早上醒来先留半小时给自己，不问世界要什么，只问自己真正要什么。
 
 ---
 
-## 今天就可以开始做的 3 件事
+## 今天就可以开始做的 3 件事 · Start Today
 
-1. **明天早上，醒来后至少 30 分钟不看手机** — 给自己一段"不被世界告诉该做什么"的时间。
+**1.** 明天早上，醒来后至少 30 分钟不看手机 — 给自己一段「不被世界告诉该做什么」的时间。
 
-2. **写下你当前最大的 3 个欲望，然后问自己：哪个可以放下？** — Naval 说，每放下一个欲望，就获得一份自由。
+**2.** 写下你当前最大的 3 个欲望，然后问自己：哪个可以放下？ — Naval 说，每放下一个欲望，就获得一份自由。
 
-3. **审视你这周花了多少时间在"地位游戏"上** — 社交媒体争论、和别人比较、在意别人的看法。把这些时间收回来，投入到创造价值的事情上。
+**3.** 审视你这周花了多少时间在「地位游戏」上 — 社交媒体争论、和别人比较、在意别人的看法。把这些时间收回来，投入到创造价值的事情上。
 
 ---
 

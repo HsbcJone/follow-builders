@@ -4,6 +4,8 @@ node_modules/
 
 # Environment
 .env
+tools/video-assets/custom-bgm.mp3
+output/**/wechat-cover-test.jpg
 *.log
 
 # OS / IDE
