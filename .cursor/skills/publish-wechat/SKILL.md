@@ -81,14 +81,21 @@ node .cursor/skills/wisdom-weekly/scripts/publish-wechat.js week-01-naval-ravika
 | 命令 | `/publish-xhs` | `/publish-wechat` |
 | 默认 | 直接发布 | **先进草稿箱**（更安全） |
 
-## 完整流水线
+## 完整流水线（发布顺序）
+
+详见 `wisdom-weekly/publish-workflow.md`。
 
 ```
 /wisdom
-/publish-xhs preview → /publish-xhs
-/publish-wechat preview → /publish-wechat
-/generate-video
+/publish-xhs                    # ① 小红书（可自动）
+/generate-video                 # ② 生成 MP4
+/publish-wechat                 # ③ 可提前推草稿（仅文字+封面）
+【手动】视频号发表               # ④ 必须先发，否则公众号插不进视频
+【手动】草稿箱 → 插入 → 视频号    # ⑤
+【手动】公众号发表               # ⑥
 ```
+
+**注意**：公众号里「插入视频号」只能在**视频号已发表**之后操作；脚本无法代劳。
 
 ## 常见错误
 

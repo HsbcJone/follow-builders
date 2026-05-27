@@ -69,17 +69,23 @@ node .cursor/skills/wisdom-weekly/scripts/generate-video.js week-XX-人名 --sec
 
 ## 与整条流水线
 
+发布顺序见 `wisdom-weekly/publish-workflow.md`：
+
 ```
 /wisdom
     ↓
-/publish-xhs preview → /publish-xhs
-    ↓
-/publish-wechat（认证后）
+/publish-xhs
     ↓
 /generate-video          ← 本 skill
     ↓
-你手动：视频号助手上传 wisdom-video.mp4
+【手动】视频号发表
+    ↓
+【手动】公众号草稿 → 插入视频号（须视频已发）
+    ↓
+【手动】公众号发表
 ```
+
+`/publish-wechat` 可在发视频前推草稿；**插入视频号必须在视频号发表之后**。
 
 可在用户发完小红书/公众号后主动提示：「是否执行 /generate-video？」
 
