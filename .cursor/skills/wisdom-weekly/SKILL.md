@@ -111,6 +111,12 @@ node .cursor/skills/wisdom-weekly/scripts/generate-pdf.js output/week-XX-人名/
 
 发完小红书后，可提示 `/publish-wechat`；再提示 `/generate-video` 合成 `wisdom-video.mp4` 供视频号上传。
 
+## 产出目录（重要）
+
+- 每期写入 **`output/week-XX-人名/`**（如 `week-02-charlie-munger`），与往期**并列保留**
+- **禁止**删除 `output/` 下其他 `week-*` 文件夹
+- 对**同一期**重跑脚本时，仅覆盖该期文件（PDF、视频、文章等），属正常更新
+
 ## 配置
 
 配置文件：`~/.wisdom-weekly/config.json`
