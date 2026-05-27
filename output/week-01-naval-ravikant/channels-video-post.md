@@ -1,6 +1,6 @@
 ---
 short_title: "纳瓦尔：聪明人为什么不快乐？"
-duration_sec: 48
+duration_sec: 53
 declare_original: true
 content_label: "无需标注（知识分享）"
 audio: 旁白(TTS) + 环境BGM
@@ -54,9 +54,9 @@ audio: 旁白(TTS) + 环境BGM
 
 ## 发布检查清单
 
-- [ ] 上传 `wisdom-video.mp4`（约 48 秒，竖屏 1080×1440）
+- [ ] 上传 `wisdom-video.mp4`（约 53 秒，竖屏 1080×1440）
 - [ ] 短标题：纳瓦尔：聪明人为什么不快乐？
 - [ ] 勾选 **原创声明**
 - [ ] 内容标注：知识分享 / 按平台要求选择
-- [ ] 封面：默认首帧或 `page-01.png`
+- [ ] 封面：优先 `video-thumb.jpg` 或视频首帧（开场首页）
 - [ ] 可见范围：公开

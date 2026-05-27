@@ -16,11 +16,14 @@
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
+const { prepareVideoIntro } = require("./video-intro");
 
 const projectRoot = path.resolve(__dirname, "../../../../");
 const scriptsDir = __dirname;
 const assetsDir = path.join(projectRoot, "tools/video-assets");
 const DEFAULT_SECONDS = 4;
+/** 开场首页停留（video-intro.png，无黑屏淡入） */
+const INTRO_SECONDS = 5;
 const FPS = 30;
 const TTS_VOICE = "zh-CN-XiaoxiaoNeural";
 /** 配乐主音量（真实 MP3）；旁白时段由 sidechain 自动压低 BGM */
@@ -96,13 +99,13 @@ function getMediaDuration(filePath) {
   return parseFloat((r.stdout || "").trim()) || 0;
 }
 
-function buildConcatFile(images, seconds, tmpPath) {
+function buildConcatFile(segments, tmpPath) {
   const lines = [];
-  for (const img of images) {
-    lines.push(`file '${img.replace(/'/g, "'\\''")}'`);
-    lines.push(`duration ${seconds}`);
+  for (const { file, duration } of segments) {
+    lines.push(`file '${file.replace(/'/g, "'\\''")}'`);
+    lines.push(`duration ${duration}`);
   }
-  const last = images[images.length - 1];
+  const last = segments[segments.length - 1].file;
   lines.push(`file '${last.replace(/'/g, "'\\''")}'`);
   fs.writeFileSync(tmpPath, lines.join("\n"), "utf8");
 }
@@ -113,7 +116,6 @@ function buildSilentVideo(concatPath, outPath, durationSec) {
     "scale=1080:1440:force_original_aspect_ratio=decrease",
     "pad=1080:1440:(ow-iw)/2:(oh-ih)/2:color=0xF5F0E8",
     "format=yuv420p",
-    "fade=t=in:st=0:d=0.6",
     `fade=t=out:st=${fadeOutStart}:d=0.8`,
   ].join(",");
 
@@ -410,7 +412,7 @@ ${person} 说过一句扎心的话：「如果你这么聪明，为什么不快�
 - [ ] 短标题：${shortTitle}
 - [ ] 勾选 **原创声明**
 - [ ] 内容标注：知识分享 / 按平台要求选择
-- [ ] 封面：默认首帧或 \`page-01.png\`
+- [ ] 封面：优先 \`video-thumb.jpg\` 或视频首帧（开场首页）
 - [ ] 可见范围：公开
 `;
 
@@ -443,27 +445,37 @@ function main() {
     process.exit(1);
   }
 
-  const images = listPageImages(weekDir);
-  if (images.length === 0) {
+  const pages = listPageImages(weekDir);
+  if (pages.length === 0) {
     console.error(`未找到 page-*.png: ${weekDir}`);
     process.exit(1);
   }
 
   ensureFfmpeg();
 
+  console.log("正在生成视频开场首页…");
+  const introPath = prepareVideoIntro(weekDir);
+
+  const segments = [
+    { file: introPath, duration: INTRO_SECONDS },
+    ...pages.map((file) => ({ file, duration: seconds })),
+  ];
+  const durationSec =
+    INTRO_SECONDS + pages.length * seconds;
+
   const concatPath = path.join(weekDir, ".ffmpeg-concat.txt");
   const silentPath = path.join(weekDir, ".wisdom-video-silent.mp4");
   const outputPath = path.join(weekDir, "wisdom-video.mp4");
   const voicePath = path.join(weekDir, ".narration.mp3");
-  const durationSec = images.length * seconds;
 
   console.log("产出目录:", weekDir);
-  console.log("图片数量:", images.length);
-  console.log("每页时长:", seconds, "秒");
+  console.log("开场首页:", introPath, `(${INTRO_SECONDS}s)`);
+  console.log("内容卡片:", pages.length, "张");
+  console.log("每卡时长:", seconds, "秒");
   console.log("预计总长:", durationSec, "秒");
   console.log("音轨:", withAudio ? "旁白 + BGM" : "无");
 
-  buildConcatFile(images, seconds, concatPath);
+  buildConcatFile(segments, concatPath);
   console.log("正在合成画面…");
   buildSilentVideo(concatPath, silentPath, durationSec);
   fs.unlinkSync(concatPath);
@@ -515,7 +527,10 @@ function main() {
   const dur = getMediaDuration(outputPath);
   console.log("\n✓ 视频已生成:", outputPath);
   console.log(`  大小: ${(stat.size / 1024 / 1024).toFixed(2)} MB`);
-  console.log(`  时长: ${dur.toFixed(1)}s（${images.length} 页 × ${seconds}s）`);
+  console.log(
+    `  时长: ${dur.toFixed(1)}s（开场 ${INTRO_SECONDS}s + ${pages.length} 页 × ${seconds}s）`
+  );
+  console.log("  视频号封面建议:", path.join(weekDir, "video-thumb.jpg"));
   console.log("\n下一步: 视频号助手上传 wisdom-video.mp4");
 }
 

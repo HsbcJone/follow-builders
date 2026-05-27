@@ -48,7 +48,9 @@ node .cursor/skills/wisdom-weekly/scripts/generate-video.js week-XX-人名 --sec
 
 | 文件 | 说明 |
 |------|------|
-| `wisdom-video.mp4` | 竖屏幻灯片 + **旁白 TTS** + **环境 BGM** |
+| `wisdom-video.mp4` | **开场首页**（5s）+ 全部 page 卡片 + 旁白 + BGM |
+| `video-intro.png` | 视频开场标题页（自动生成，避免片头黑屏） |
+| `video-thumb.jpg` | 视频号上传封面建议用此图 |
 | `video-narration.txt` | 旁白稿（自动生成，可手工改写后重跑） |
 | `channels-video-post.md` | 短标题、描述、发布检查清单 |
 
@@ -84,6 +86,7 @@ node .cursor/skills/wisdom-weekly/scripts/generate-video.js week-XX-人名 --sec
 ## 技术说明
 
 - 分辨率：1080×1440（与 PNG 卡片一致，9:16）
+- 开场：`video-intro.png` 停留 5 秒（标题 + page-01 缩略图），**无片头黑屏淡入**
 - 编码：H.264 + AAC 192kbps
 - 旁白：`edge-tts` CLI，`zh-CN-XiaoxiaoNeural`（失败时回退 macOS `say`）
 - BGM：`tools/video-assets/custom-bgm.mp3`（真实音乐；`--bgm` 指定路径；勿用合成噪声除非 `--synth-bgm`）

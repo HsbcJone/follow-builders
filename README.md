@@ -18,15 +18,19 @@
 
 ### 目录结构
 
+每期在 `output/` 下**单独一个文件夹**（如 `week-01-naval-ravikant`、`week-02-charlie-munger`）。  
+**不会删除往期目录**；只有对**同一期**重新生成时才会覆盖该期内的文件（如重跑 PDF、视频、推送草稿）。
+
 ```
 follow-builders/
-├── output/                              # 每期产出
+├── output/                              # 每期产出（按 week-XX-人名 累积保留）
 │   └── week-01-naval-ravikant/
 │       ├── wisdom.pdf
 │       ├── page-01.png …
 │       ├── wechat-article.md
 │       ├── xiaohongshu-post.md          # 小红书文案
 │       ├── wisdom-video.mp4             # 视频号/抖音（/generate-video）
+│       ├── video-intro.png / video-thumb.jpg  # 视频开场与封面建议
 │       └── channels-video-post.md       # 视频发布文案与清单
 ├── tools/xiaohongshu-mcp/               # MCP 本地服务（setup 后）
 └── .cursor/
