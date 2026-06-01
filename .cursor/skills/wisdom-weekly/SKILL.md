@@ -107,17 +107,15 @@ node .cursor/skills/wisdom-weekly/scripts/generate-pdf.js output/week-XX-人名/
 
 输出生成结果的路径，展示 PDF 封面预览。
 
-可选：提示用户执行 `/publish-xhs preview` 生成小红书文案，审阅后用 `/publish-xhs` 发布（需 xiaohongshu-mcp 运行中）。
+可选：提示用户执行 `/publish-xhs preview` 生成小红书文案，审阅后用 `/publish-xhs` 发布（Agent 须先自动运行 `ensure-xhs-mcp.js`）。
 
 **发布后顺序（固定，详见 `publish-workflow.md`）**：
 
 1. `/publish-xhs` 发小红书  
 2. `/generate-video` 生成 MP4  
-3. **用户手动** 视频号助手发表视频  
-4. **用户手动** 公众号草稿 → 插入 → 视频号（须视频已发表）  
-5. 公众号发表图文  
-
-`/publish-wechat` 可在步骤 3 前推草稿（文字+封面）；**插入视频号必须在步骤 3 之后**。
+3. 视频号发表（文案见 `channels-video-post.md`）  
+4. `/publish-wechat` 推草稿（文章已含「本期视频」引导文案，见 `wechat-format-rules.md`）  
+5. 公众号发表  
 
 ## 产出目录（重要）
 

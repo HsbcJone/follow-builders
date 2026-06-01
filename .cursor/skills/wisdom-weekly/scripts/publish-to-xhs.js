@@ -1,85 +1,109 @@
 #!/usr/bin/env node
 /**
- * 辅助脚本：列出某期可用于发布的图片绝对路径，并校验 xiaohongshu-mcp 是否在线
- * 实际发布由 Cursor Agent 调用 MCP publish_content 完成
+ * /publish-xhs 前置：非无头 MCP + 限 6–9 图 + 随机延迟 + 输出发布载荷
  *
  * 用法（项目根目录）:
- *   node .cursor/skills/wisdom-weekly/scripts/publish-to-xhs.js week-01-naval-ravikant
+ *   node .cursor/skills/wisdom-weekly/scripts/publish-to-xhs.js week-02-charlie-munger
+ *   node ... week-02 --no-delay      # 跳过 30–90s 等待（调试）
+ *   node ... week-02 --no-ensure     # 跳过启动 MCP
  */
 
 const fs = require("fs");
 const path = require("path");
-const http = require("http");
+const { spawnSync } = require("child_process");
+const {
+  randomDelayMs,
+  sleep,
+  resolveWeekDir,
+  resolveWeekFromIndex,
+  buildPublishPayload,
+  DELAY_MIN_MS,
+  DELAY_MAX_MS,
+  MAX_IMAGES,
+} = require("./xhs-publish-lib");
 
 const projectRoot = path.resolve(__dirname, "../../../../");
-const weekDir = process.argv[2]
-  ? path.join(projectRoot, "output", process.argv[2])
-  : null;
+const argv = process.argv.slice(2);
+const noEnsure = argv.includes("--no-ensure");
+const noDelay = argv.includes("--no-delay");
+const weekArg = argv.find((a) => !a.startsWith("--"));
 
-if (!weekDir || !fs.existsSync(weekDir)) {
-  console.error("用法: node publish-to-xhs.js <output子目录名>");
-  console.error("示例: node publish-to-xhs.js week-01-naval-ravikant");
+let weekDir = resolveWeekDir(projectRoot, weekArg);
+if (!weekDir) weekDir = resolveWeekFromIndex(projectRoot);
+
+if (!weekDir) {
+  console.error("用法: node publish-to-xhs.js <output子目录名> [--no-delay] [--no-ensure]");
   process.exit(1);
 }
 
-const images = fs
-  .readdirSync(weekDir)
-  .filter((f) => /^page-\d+\.png$/i.test(f))
-  .sort()
-  .map((f) => path.join(weekDir, f));
+async function main() {
+  if (!noEnsure) {
+    const ensure = spawnSync(
+      "node",
+      [path.join(__dirname, "ensure-xhs-mcp.js")],
+      { cwd: projectRoot, encoding: "utf8", stdio: "inherit" }
+    );
+    if (ensure.status !== 0) process.exit(ensure.status || 1);
+    console.log("");
+  }
 
-const postFile = path.join(weekDir, "xiaohongshu-post.md");
+  let payload;
+  try {
+    payload = buildPublishPayload(weekDir);
+  } catch (e) {
+    console.error("✗", e.message);
+    process.exit(1);
+  }
 
-console.log("产出目录:", weekDir);
-console.log("图片数量:", images.length);
-images.forEach((p, i) => console.log(`  [${i + 1}] ${p}`));
-
-if (fs.existsSync(postFile)) {
-  console.log("\n文案文件:", postFile);
-} else {
-  console.log("\n尚未生成 xiaohongshu-post.md，请先 /publish-xhs preview");
-}
-
-function checkMcp() {
-  return new Promise((resolve) => {
-    const req = http.request(
+  const metaPath = path.join(weekDir, "xhs-publish-payload.json");
+  fs.writeFileSync(
+    metaPath,
+    JSON.stringify(
       {
-        hostname: "localhost",
-        port: 18060,
-        path: "/mcp",
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        timeout: 3000,
+        ...payload,
+        prepared_at: new Date().toISOString(),
+        mode: "non-headless-default",
+        delay_ms: noDelay ? 0 : null,
       },
-      (res) => {
-        resolve(res.statusCode >= 200 && res.statusCode < 500);
-      }
+      null,
+      2
+    ),
+    "utf8"
+  );
+
+  console.log("产出目录:", weekDir);
+  console.log("文案:", path.join(weekDir, "xiaohongshu-post.md"));
+  console.log("标题:", payload.title);
+  if (payload.images_capped) {
+    console.log(
+      `图片: 使用 ${payload.image_used}/${payload.image_total} 张（风控上限 ${MAX_IMAGES} 张，已截断）`
     );
-    req.on("error", () => resolve(false));
-    req.on("timeout", () => {
-      req.destroy();
-      resolve(false);
-    });
-    req.write(
-      JSON.stringify({
-        jsonrpc: "2.0",
-        method: "initialize",
-        params: {
-          protocolVersion: "2024-11-05",
-          capabilities: {},
-          clientInfo: { name: "wisdom-weekly", version: "1.0.0" },
-        },
-        id: 1,
-      })
+  } else {
+    console.log(`图片: ${payload.image_used} 张`);
+  }
+  payload.images.forEach((p, i) => console.log(`  [${i + 1}] ${p}`));
+  console.log("话题:", payload.tags.join(", ") || "(无)");
+
+  if (!noDelay) {
+    const ms = randomDelayMs();
+    const sec = (ms / 1000).toFixed(0);
+    console.log(
+      `\n⏳ 发布前随机等待 ${sec}s（${DELAY_MIN_MS / 1000}–${DELAY_MAX_MS / 1000}s，降风控）…`
     );
-    req.end();
-  });
+    await sleep(ms);
+    const saved = JSON.parse(fs.readFileSync(metaPath, "utf8"));
+    saved.delay_ms = ms;
+    fs.writeFileSync(metaPath, JSON.stringify(saved, null, 2));
+    console.log("✓ 等待完成");
+  }
+
+  console.log("\n--- 请调用 MCP publish_content（仅此一步，勿 list_feeds）---");
+  console.log(JSON.stringify(payload, null, 2));
+  console.log("\n载荷已写入:", metaPath);
+  console.log("✓ 前置完成，可 publish_content");
 }
 
-checkMcp().then((ok) => {
-  console.log(
-    ok
-      ? "\n✓ xiaohongshu-mcp 服务可达 (localhost:18060)"
-      : "\n✗ MCP 未运行 → bash tools/xiaohongshu-mcp/start.sh"
-  );
+main().catch((e) => {
+  console.error(e.message || e);
+  process.exit(1);
 });

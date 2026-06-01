@@ -12,13 +12,13 @@
 /wisdom [人名]       # 指定人物
 /publish-xhs preview # 生成小红书文案（不发布）
 /publish-xhs         # 发布到小红书
-/publish-wechat      # 推送到公众号草稿箱（插入视频号须先发完视频，见下）
+/publish-wechat      # 推送到公众号草稿箱（含「本期视频」引导文案）
 /generate-video      # 合成视频号用 MP4
 ```
 
 **推荐发布顺序**（详见 `.cursor/skills/wisdom-weekly/publish-workflow.md`）：
 
-1. 发小红书 → 2. 生成视频 → 3. **手动**发视频号 → 4. **手动**在公众号草稿插入该视频 → 5. 发表公众号
+1. 发小红书 → 2. 生成视频 → 3. 发视频号 → 4. `/publish-wechat` → 5. 发表公众号
 
 ### 目录结构
 
@@ -63,17 +63,14 @@ bash tools/xiaohongshu-mcp/setup.sh
 
 # 2. 扫码登录（小红书 App）
 bash tools/xiaohongshu-mcp/login.sh
-
-# 3. 启动服务（保持运行）
-bash tools/xiaohongshu-mcp/start.sh
 ```
 
-重启 Cursor，确认 MCP `xiaohongshu-mcp` 已连接。
+`/publish-xhs` 会自动：**非无头 MCP**、**最多 9 图**、**发布前随机等待 30–90s**。
 
 ### 发布流程
 
 ```bash
-# 检查图片路径与 MCP 是否在线
+# 自动启动 MCP + 列出图片路径
 node .cursor/skills/wisdom-weekly/scripts/publish-to-xhs.js week-01-naval-ravikant
 ```
 

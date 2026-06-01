@@ -1,0 +1,531 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap");
+
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --font-en-display: "Cormorant Garamond", Georgia, serif;
+    --font-en-body: "Source Serif 4", Georgia, serif;
+    --font-zh: "Noto Serif SC", "Songti SC", serif;
+    --color-bg: #f9f7f4;
+    --color-text: #2c2825;
+    --color-text-en: #4a4540;
+    --color-muted: #7a746c;
+    --color-accent: #9a7b4f;
+    --color-accent-light: #c9a962;
+    --color-border: #e8e4dd;
+    --cover-bg: #141210;
+    --cover-text: #f5f0e6;
+    --insight-bg: linear-gradient(135deg, #faf8f3 0%, #f3efe6 100%);
+    --page-padding: 48px 52px 64px;
+  }
+
+  body {
+    font-family: var(--font-zh);
+    color: var(--color-text);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: var(--page-padding);
+    position: relative;
+    page-break-after: always;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* 页眉（内容页） */
+  .page-masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+  .page-masthead .brand {
+    font-family: var(--font-en-display);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .page-masthead .brand-zh {
+    font-family: var(--font-zh);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin-top: 2px;
+  }
+  .page-masthead .chapter-mini {
+    text-align: right;
+    font-family: var(--font-en-display);
+    font-size: 11px;
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+  }
+  .page-masthead .chapter-mini-zh {
+    font-family: var(--font-zh);
+    font-size: 11px;
+    color: var(--color-text);
+    margin-top: 3px;
+    font-weight: 600;
+  }
+
+  /* 封面 */
+  .cover {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: var(--cover-bg);
+    color: var(--cover-text);
+    padding: 56px;
+  }
+  .cover .series-tag {
+    font-family: var(--font-en-display);
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 8px;
+  }
+  .cover .series-tag-zh {
+    font-family: var(--font-zh);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    opacity: 0.5;
+    margin-bottom: 40px;
+  }
+  .cover .person-name-en {
+    font-family: var(--font-en-display);
+    font-size: 22px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .cover .person-name-zh {
+    font-family: var(--font-zh);
+    font-size: 40px;
+    letter-spacing: 0.28em;
+    font-weight: 600;
+    color: var(--color-accent-light);
+    margin-bottom: 28px;
+  }
+  .cover .divider {
+    width: 72px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-accent-light), transparent);
+    margin: 24px auto;
+  }
+  .cover .tagline {
+    font-family: var(--font-en-display);
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-bottom: 12px;
+  }
+  .cover .subtitle {
+    font-family: var(--font-zh);
+    font-size: 14px;
+    line-height: 1.9;
+    opacity: 0.7;
+    max-width: 380px;
+    letter-spacing: 0.08em;
+  }
+  .cover .week-badge {
+    margin-top: auto;
+    font-family: var(--font-en-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    opacity: 0.45;
+  }
+
+  /* 概览 */
+  .overview { background: var(--color-bg); }
+  .overview-hero { margin-bottom: 32px; }
+  .overview .book-title-en {
+    font-family: var(--font-en-display);
+    font-size: 26px;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .overview .book-title-zh {
+    font-family: var(--font-zh);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+  }
+  .overview .book-desc-en {
+    font-family: var(--font-en-body);
+    font-size: 13px;
+    color: var(--color-text-en);
+    line-height: 1.75;
+    margin-bottom: 8px;
+  }
+  .overview .book-desc-zh {
+    font-size: 14px;
+    color: var(--color-muted);
+    line-height: 1.85;
+    margin-bottom: 28px;
+  }
+  .toc-title {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .toc-title span { font-family: var(--font-en-display); }
+  .toc-title span.zh { font-family: var(--font-zh); letter-spacing: 0.15em; }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .toc-item .toc-zh {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+  }
+  .toc-item .toc-en {
+    font-family: var(--font-en-display);
+    font-size: 14px;
+    color: var(--color-text-en);
+    text-align: right;
+    max-width: 48%;
+    line-height: 1.4;
+  }
+  .overview-note {
+    margin-top: auto;
+    font-size: 12px;
+    color: var(--color-muted);
+    line-height: 1.8;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+  .overview-note .en {
+    font-family: var(--font-en-body);
+    font-size: 11px;
+    margin-top: 6px;
+    color: var(--color-text-en);
+  }
+
+  /* 章节页 */
+  .chapter { background: var(--color-bg); }
+  .chapter::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  }
+  .chapter-header { margin-bottom: 20px; flex-shrink: 0; }
+  .chapter-label {
+    font-family: var(--font-en-display);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--color-accent);
+    margin-bottom: 6px;
+  }
+  .chapter-title-en {
+    font-family: var(--font-en-display);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+  .chapter-title-zh {
+    font-family: var(--font-zh);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+  }
+
+  .insight-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .insight-head { margin-bottom: 4px; }
+  .insight-title-zh {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .insight-title-en {
+    font-family: var(--font-en-display);
+    font-size: 15px;
+    color: var(--color-accent);
+    font-style: italic;
+    line-height: 1.35;
+  }
+  .body-bilingual {
+    flex: 1;
+    min-height: 0;
+  }
+  .body-bilingual-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .body-bilingual-label .en {
+    font-family: var(--font-en-display);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .body-pair {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--color-border);
+  }
+  .body-pair:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .para-zh {
+    font-size: 13px;
+    line-height: 1.85;
+    text-align: justify;
+    color: var(--color-text);
+  }
+  .para-en {
+    font-family: var(--font-en-body);
+    font-size: 12px;
+    line-height: 1.75;
+    text-align: justify;
+    color: var(--color-text-en);
+    margin-top: 8px;
+  }
+
+  .core-insight {
+    padding: 16px 20px;
+    border-radius: 2px;
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    background: var(--insight-bg);
+    margin-top: auto;
+  }
+  .core-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .core-label .zh {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-accent);
+  }
+  .core-label .en {
+    font-family: var(--font-en-display);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .quote-zh {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.75;
+    color: var(--color-text);
+    margin-bottom: 12px;
+  }
+  .quote-en {
+    font-family: var(--font-en-body);
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--color-text-en);
+    font-style: italic;
+  }
+
+  .page-foot {
+    position: absolute;
+    bottom: 28px;
+    left: 52px;
+    right: 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+    font-size: 10px;
+    color: var(--color-muted);
+  }
+  .page-foot .foot-chapter {
+    font-family: var(--font-zh);
+    max-width: 70%;
+    line-height: 1.5;
+  }
+  .page-foot .foot-chapter .en {
+    font-family: var(--font-en-display);
+    display: block;
+    font-size: 10px;
+    color: var(--color-text-en);
+    margin-top: 2px;
+  }
+  .page-foot .foot-num {
+    font-family: var(--font-en-display);
+    font-size: 14px;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* 尾页 */
+  .ending {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: var(--color-bg);
+  }
+  .ending .series-en {
+    font-family: var(--font-en-display);
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+  .ending .series-zh {
+    font-size: 13px;
+    letter-spacing: 0.35em;
+    color: var(--color-muted);
+    margin-bottom: 36px;
+  }
+  .ending .week-info {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .ending .week-info-en {
+    font-family: var(--font-en-display);
+    font-size: 15px;
+    color: var(--color-text-en);
+    margin-bottom: 40px;
+  }
+  .ending .next-label {
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 10px;
+  }
+  .ending .next-label-en {
+    font-family: var(--font-en-display);
+    font-size: 11px;
+    color: var(--color-muted);
+    margin-bottom: 16px;
+  }
+  .ending .next-name {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .ending .next-name-en {
+    font-family: var(--font-en-display);
+    font-size: 17px;
+    color: var(--color-accent);
+    margin-top: 8px;
+  }
+
+/* 现代思想家风格 — 极简、理性、大字排版、黑白为主
+   适用：Nassim Taleb, Charlie Munger, Ray Dalio, Morgan Housel, James Clear,
+         Kevin Kelly, Tim Ferriss, Seth Godin, Derek Sivers, Shane Parrish,
+         Richard Feynman, 李录, 罗翔, 冯仑 */
+
+:root {
+  --font-heading: "DM Sans", "Helvetica Neue", sans-serif;
+  --font-body: "DM Sans", "Helvetica Neue", "PingFang SC", sans-serif;
+  --font-zh-heading: "PingFang SC", "Microsoft YaHei", sans-serif;
+  --zh-heading-weight: 600;
+
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-text-secondary: #777777;
+  --color-accent: #111111;
+  --color-border: #e0e0e0;
+
+  --cover-bg: #111111;
+  --cover-text: #ffffff;
+
+  --insight-bg: #f7f7f7;
+  --page-padding: 50px 55px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
+.cover {
+  background: #111111;
+}
+
+.cover .person-name-zh {
+  font-size: 48px;
+  letter-spacing: 14px;
+  font-weight: 600;
+}
+
+.cover .divider {
+  background: #ffffff;
+  width: 50px;
+  height: 2px;
+}
+
+.cover .series-tag {
+  opacity: 0.4;
+}
+
+.core-insight {
+  border-left: 4px solid #111111;
+  background: var(--insight-bg);
+  border-radius: 0;
+}
+
+.core-insight .label {
+  color: #111111;
+  font-weight: 700;
+}
+
+.core-insight .quote {
+  font-weight: 500;
+  font-style: normal;
+  font-size: 15px;
+}
+
+.chapter-title-en {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.chapter-title-zh {
+  font-size: 20px;
+}
+
+.section-divider::before {
+  content: "—";
+}
+
+.page {
+  background: var(--color-bg);
+}

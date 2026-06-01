@@ -18,13 +18,22 @@ bash tools/xiaohongshu-mcp/login.sh
 
 用小红书 App 扫码。
 
-## 启动 MCP（保持运行）
+## 自动启动（/publish-xhs 默认）
+
+- **非无头** `-headless=false`（降风控；调试：`XHS_HEADLESS=1`）
+- 未运行时后台启动；若检测到旧的无头进程会自动重启
+
+```bash
+node .cursor/skills/wisdom-weekly/scripts/publish-to-xhs.js week-XX-人名
+```
+
+服务地址：`http://localhost:18060/mcp`
+
+## 手动前台启动（调试用）
 
 ```bash
 bash tools/xiaohongshu-mcp/start.sh
 ```
-
-服务地址：`http://localhost:18060/mcp`
 
 ## Cursor
 

@@ -80,12 +80,12 @@ node .cursor/skills/wisdom-weekly/scripts/generate-video.js week-XX-人名 --sec
     ↓
 【手动】视频号发表
     ↓
-【手动】公众号草稿 → 插入视频号（须视频已发）
+/publish-wechat
     ↓
 【手动】公众号发表
 ```
 
-`/publish-wechat` 可在发视频前推草稿；**插入视频号必须在视频号发表之后**。
+`wechat-article.md` 含固定「本期视频」引导行，格式见 `wechat-format-rules.md`。
 
 可在用户发完小红书/公众号后主动提示：「是否执行 /generate-video？」
 

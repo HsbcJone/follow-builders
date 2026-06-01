@@ -210,6 +210,15 @@ function parseFrontmatter(filePath) {
   if (!m) return { body: raw };
   const data = {};
   for (const line of m[1].split("\n")) {
+    const arr = line.match(/^(\w+):\s*\[(.+)\]\s*$/);
+    if (arr) {
+      data[arr[1]] = arr[2]
+        .split(",")
+        .map((s) => s.trim().replace(/^["']|["']$/g, ""))
+        .filter(Boolean)
+        .join(", ");
+      continue;
+    }
     const kv = line.match(/^(\w+):\s*["']?(.+?)["']?\s*$/);
     if (kv) data[kv[1]] = kv[2].replace(/^["']|["']$/g, "");
   }
@@ -345,12 +354,114 @@ function muxAudioVideo(videoPath, bgmPath, voicePath, outputPath) {
   }
 }
 
+function parseXhsTags(tagsRaw) {
+  if (!tagsRaw) return ["智者周刊", "成长", "思维"];
+  if (Array.isArray(tagsRaw)) return tagsRaw;
+  if (typeof tagsRaw === "string" && tagsRaw.includes(",")) {
+    return tagsRaw.split(/[,，]/).map((s) => s.trim()).filter(Boolean);
+  }
+  try {
+    const parsed = JSON.parse(tagsRaw.replace(/'/g, '"'));
+    if (Array.isArray(parsed) && parsed.length) return parsed;
+  } catch (_) {
+    /* ignore */
+  }
+  return [String(tagsRaw).replace(/^#/, "")];
+}
+
+function extractXhsBullets(xhsBody) {
+  const bullets = [];
+  const re = /\*\*(\d+)\.\*\*\s*([^\n*]+)\n([\s\S]*?)(?=\n\*\*\d+\.\*\*|\n📌|\n#|$)/g;
+  let m;
+  while ((m = re.exec(xhsBody || "")) && bullets.length < 3) {
+    const headline = m[2].trim();
+    const detail = stripMarkdown(m[3]).slice(0, 48).trim();
+    bullets.push(detail ? `${headline}——${detail}` : headline);
+  }
+  return bullets;
+}
+
+function buildChannelsDescription(meta) {
+  const { person, xhsBody, bullets, tags } = meta;
+  const hook =
+    stripMarkdown((xhsBody || "").split("\n\n")[0] || "").slice(0, 80) ||
+    `本期「智者周刊」带你用 1 分钟看懂${person}的核心智慧。`;
+  const lines = bullets.length
+    ? bullets.map((b, i) => `${"①②③"[i] || `${i + 1}.`} ${b}`)
+    : ["① 本期核心洞察一", "② 本期核心洞察二", "③ 本期核心洞察三"];
+  const tagLine = tags.map((t) => `#${t.replace(/^#/, "")}`).join(" ");
+  return `${hook}
+
+本期「智者周刊」1 分钟看懂${person}三条心法：
+${lines.join("\n")}
+
+左滑看完本期全部图卡，收藏慢慢看。每周一位智者，陪你慢慢变强。
+
+${tagLine}`.trim();
+}
+
+function buildChannelsFormSection(shortTitle, description, tags) {
+  const tagList = tags.map((t) => `\`${t.replace(/^#/, "")}\``).join(" ");
+  const descBlock = description
+    .split("\n")
+    .filter((l) => !l.trim().startsWith("#"))
+    .join("\n")
+    .trim();
+  return `## 视频号助手 · 上传表单（对照截图逐项填）
+
+打开 [视频号助手](https://channels.weixin.qq.com/) → 发表视频 → 上传 \`wisdom-video.mp4\`，按下面填写：
+
+| 字段 | 怎么填 |
+|------|--------|
+| **视频描述** | 见下方「描述正文」，整段复制粘贴；话题用 \`#话题\` 按钮添加（见话题列表） |
+| **短标题** | \`${shortTitle}\` |
+| **位置** | **不显示位置**（或选你所在城市） |
+| **添加到合集** | 选 **智者周刊**（没有就先创建该合集） |
+| **链接** | **不添加**（公众号链接等视频发表后再挂） |
+| **活动** | **不参与活动** |
+
+### 描述正文（复制到「视频描述」框）
+
+\`\`\`
+${descBlock}
+\`\`\`
+
+### 话题（点 \`#话题\` 添加，建议 3～5 个）
+
+${tagList}
+
+### 短标题（单独一栏，≥6 字）
+
+\`\`\`
+${shortTitle}
+\`\`\`
+
+### 封面与其它
+
+- **封面**：上传 \`video-thumb.jpg\`，或用视频首帧（开场首页）
+- **原创声明**：勾选
+- **内容标注**：知识分享 / 按平台要求
+- **可见范围**：公开`;
+}
+
 function writeChannelsPost(weekDir, meta, hasAudio, durationSec) {
   const outPath = path.join(weekDir, "channels-video-post.md");
   const title = meta.title || "智者周刊：本期智慧精选";
   const person = meta.person || "本期智者";
   const shortTitle = buildShortTitle(title, person);
   const dur = Math.round(durationSec || 0);
+  const tags = parseXhsTags(meta.tags);
+  const bullets = extractXhsBullets(meta.xhsBody);
+  const description = buildChannelsDescription({
+    person,
+    xhsBody: meta.xhsBody,
+    bullets,
+    tags,
+  });
+  const formSection = buildChannelsFormSection(shortTitle, description, tags);
+  const bulletWechat = bullets.length
+    ? bullets.map((b) => `· ${b.split("——")[0]}`).join("\n")
+    : `· 本期核心洞察一\n· 本期核心洞察二\n· 本期核心洞察三`;
 
   const body = `---
 short_title: "${shortTitle.replace(/"/g, "")}"
@@ -358,24 +469,23 @@ duration_sec: ${dur}
 declare_original: true
 content_label: "无需标注（知识分享）"
 audio: ${hasAudio ? "旁白(TTS) + 环境BGM" : "无"}
+collection: "智者周刊"
+location: "不显示位置"
+link: "不添加"
+activity: "不参与活动"
+---
+
+${formSection}
+
 ---
 
 ## 视频号 · 短标题（≥6 字，直接复制）
 
 ${shortTitle}
 
-## 视频号 · 描述（复制到「扩展链接/描述」或评论区置顶）
+## 视频号 · 描述（含话题，可整段复制）
 
-如果你这么聪明，为什么还是常常不开心？
-
-本期「智者周刊」带你用 1 分钟看懂硅谷哲人纳瓦尔的三条心法：
-① 愿意回到零点的勇气
-② 别把「先成功再快乐」搞反
-③ 别在地位游戏里内耗
-
-左滑看完本期全部图卡，收藏慢慢看。每周一位智者，陪你慢慢变强。
-
-#智者周刊 #纳瓦尔 #成长 #思维升级 #人生智慧
+${description}
 
 ---
 
@@ -385,12 +495,8 @@ ${shortTitle}
 
 **正文（发视频消息或视频号动态）：**
 
-${person} 说过一句扎心的话：「如果你这么聪明，为什么不快乐？」
-
 本期 1 分钟视频，浓缩三个洞察——
-· 创造伟大，先要敢回到零
-· 快乐不是成功的奖品，而是起点
-· 逃离地位游戏，专注创造价值
+${bulletWechat}
 
 完整长文与图卡见公众号推文；左滑视频看完本期卡片。
 
@@ -398,27 +504,19 @@ ${person} 说过一句扎心的话：「如果你这么聪明，为什么不快�
 
 ---
 
-## 公众号图文 · 插入本视频时的说明（可选）
-
-在推文合适位置插入 \`wisdom-video.mp4\`，配文示例：
-
-> 📺 **1 分钟看懂本期** · 左滑视频，配合上文阅读效果更佳。
-
----
-
 ## 发布顺序（本期）
 
-1. [ ] 小红书已发（/publish-xhs）
-2. [ ] **视频号**：上传并发表 \`wisdom-video.mp4\`（见下方清单）
-3. [ ] **公众号草稿**：插入 → 视频号 → 选**已发表**的本条（须在第 2 步之后）
-4. [ ] **公众号**：发表图文
+1. [ ] 小红书（/publish-xhs）
+2. [ ] 视频号发表（见上方表单）
+3. [ ] 公众号草稿（/publish-wechat）
+4. [ ] 公众号发表
 
 完整流程见 \`publish-workflow.md\`
 
 ## 视频号检查清单
 
 - [ ] 上传 \`wisdom-video.mp4\`（约 ${dur} 秒，竖屏 1080×1440）
-- [ ] 短标题：${shortTitle}
+- [ ] 视频描述、短标题、位置、合集、链接、活动（见上方表单）
 - [ ] 勾选 **原创声明**
 - [ ] 内容标注：知识分享 / 按平台要求选择
 - [ ] 封面：优先 \`video-thumb.jpg\` 或视频首帧（开场首页）
@@ -433,10 +531,9 @@ function buildShortTitle(title, person) {
   const t = (title || "").replace(/[「」""]/g, "").trim();
   if (t.length >= 6 && t.length <= 16) return t;
   const candidates = [
-    `${person}：聪明人为何不快乐`,
-    `${person}三条幸福心法`,
-    `智者周刊·${person}精选`,
-    "纳瓦尔：聪明人为何不快乐",
+    `${person}三条智慧心法`,
+    `智者周刊·${person}`,
+    `${person}：本期智慧精选`,
     "智者周刊本期精选",
   ];
   for (const c of candidates) {
@@ -527,7 +624,12 @@ function main() {
   const finalDur = getMediaDuration(outputPath);
   writeChannelsPost(
     weekDir,
-    { title: xhsMeta.title || wechatTitle, person },
+    {
+      title: xhsMeta.title || wechatTitle,
+      person,
+      tags: xhsMeta.tags,
+      xhsBody: xhsMeta.body,
+    },
     withAudio,
     finalDur
   );

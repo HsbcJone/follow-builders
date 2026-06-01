@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=_mcp_flags.sh
+source "${DIR}/_mcp_flags.sh"
+
 DATA="${DIR}/data"
 mkdir -p "$DATA"
 
@@ -15,11 +18,15 @@ if [[ -z "$MCP" ]]; then
 fi
 
 export XHS_COOKIE_PATH="${DATA}/cookies.json"
-PORT="${XHS_MCP_PORT:-18060}"
+PORT="$(xhs_mcp_port)"
+HEADLESS_FLAG="$(xhs_mcp_headless_flag)"
 
-echo "启动 xiaohongshu-mcp → http://localhost:${PORT}/mcp"
+mode="非无头"
+[[ "${XHS_HEADLESS:-0}" == "1" ]] && mode="无头"
+echo "启动 xiaohongshu-mcp (${mode}) → http://localhost:${PORT}/mcp"
 echo "Cookie: ${XHS_COOKIE_PATH}"
 echo "按 Ctrl+C 停止"
 echo ""
 
-exec "$MCP" -port ":${PORT}"
+# shellcheck disable=SC2086
+exec "$MCP" -port ":${PORT}" ${HEADLESS_FLAG}

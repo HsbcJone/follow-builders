@@ -1,5 +1,5 @@
 {
-  "currentWeek": 1,
+  "currentWeek": 2,
   "rotation": [
     { "week": 1, "file": "international/naval-ravikant.md", "name_zh": "纳瓦尔·拉维坎特" },
     { "week": 2, "file": "international/charlie-munger.md", "name_zh": "查理·芒格" },
@@ -32,5 +32,7 @@
     { "week": 29, "file": "international/epictetus.md", "name_zh": "爱比克泰德" },
     { "week": 30, "file": "chinese/fu-sheng.md", "name_zh": "傅盛" }
   ],
-  "history": []
+  "history": [
+    { "week": 1, "slug": "week-01-naval-ravikant", "name_zh": "纳瓦尔·拉维坎特" }
+  ]
 }

@@ -2,134 +2,76 @@
 name: publish-xiaohongshu
 description: >-
   将智者周刊产出发布到小红书。依赖 xiaohongshu-mcp（localhost:18060）。
-  使用 /publish-xhs 或 /publish-xhs week-01 触发；与 wisdom-weekly 串联。
+  默认非无头 + 最多 9 图 + 发布前随机延迟（降风控）。
+  使用 /publish-xhs 或 /publish-xhs week-01 触发。
 ---
 
 # Publish to Xiaohongshu — 发布小红书
 
-将 `output/week-XX-人名/` 下的 PNG 卡片和文案发布到小红书。
+## 风控策略（默认启用，用户无需配置）
 
-## 前置条件
+| 措施 | 实现 |
+|------|------|
+| **非无头浏览器** | MCP 启动带 `-headless=false`；旧无头进程自动重启 |
+| **限图 6–9 张** | `page-01`…最多 **9** 张；超过则截断（如 11→9） |
+| **发布前延迟** | 随机 **30–90 秒** 再调 `publish_content` |
+| **窄工具链** | 仅 `check_login_status` + `publish_content`，**禁止** list_feeds / 点赞 / 评论 |
 
-1. **xiaohongshu-mcp 已安装并运行**（见下方「首次设置」）
-2. **Cursor 已配置 MCP**：项目 `.cursor/mcp.json` 含 `xiaohongshu-mcp`
-3. **已登录小红书**：`check_login_status` 返回已登录
-
-首次设置（用户只需做一次）：
-
-```bash
-# 1. 下载二进制（约 18MB）
-bash tools/xiaohongshu-mcp/setup.sh
-
-# 2. 扫码登录（会打开浏览器）
-bash tools/xiaohongshu-mcp/login.sh
-
-# 3. 启动 MCP 服务（保持终端运行）
-bash tools/xiaohongshu-mcp/start.sh
-```
-
-然后 **重启 Cursor**，使 MCP 生效。
+调试：`XHS_HEADLESS=1` 恢复无头；`--no-delay` 跳过等待。
 
 ## 触发方式
 
-- `/publish-xhs` — 发布当前最新一期（`people/_index.json` 的 currentWeek）
-- `/publish-xhs week-01` — 发布指定期数目录
-- `/publish-xhs preview` — 只生成文案草稿，不发布
+- `/publish-xhs` — 发布 currentWeek
+- `/publish-xhs week-02-charlie-munger` — 指定期数
+- `/publish-xhs preview` — 只生成 `xiaohongshu-post.md`
 
-## 工作流
+## 工作流（Agent 必须按序执行）
 
-### Step 1: 检查 MCP 与登录
+### Step 1: 运行前置脚本（必做，一条命令）
 
-调用 MCP 工具 `check_login_status`。
-
-- 未登录 → 调用 `get_login_qrcode`，提示用户用小红书 App 扫码，轮询直到登录成功
-- 服务不可用 → 提示用户运行 `bash tools/xiaohongshu-mcp/start.sh`
-
-### Step 2: 定位产出目录
-
-读取 `.cursor/skills/wisdom-weekly/people/_index.json`，或用户指定的 `week-XX`。
-
-目录示例：`output/week-01-naval-ravikant/`
-
-必须存在：
-- `page-01.png` … `page-N.png`（至少 1 张，建议 3–9 张）
-- 可选：`xiaohongshu-post.md`（已有人工审过的文案）
-
-### Step 3: 生成小红书文案
-
-若无 `xiaohongshu-post.md`，读取 `prompts/xiaohongshu-caption.md` 并基于：
-- 同期 `wechat-article.md`（缩短）
-- 人物档案 tagline / themes
-- 本期 PDF 章节标题
-
-生成并写入 `output/week-XX-人名/xiaohongshu-post.md`：
-
-```markdown
----
-title: "标题（≤20字）"
-tags: ["成长", "思维", "纳瓦尔"]
-visibility: "公开可见"
-images_mode: "carousel"  # 使用 page-*.png 顺序
----
-
-正文内容（≤1000字，含 emoji 适度、分段、引导收藏）
+```bash
+node .cursor/skills/wisdom-weekly/scripts/publish-to-xhs.js week-XX-人名
 ```
 
-**硬性限制（小红书平台）**
-- 标题：**不超过 20 个字**
-- 正文：**不超过 1000 个字**
-- 图片：本地**绝对路径**，至少 1 张
+脚本自动：
 
-### Step 4: 用户确认（默认）
+1. `ensure-xhs-mcp.js` → 非无头 MCP
+2. 读取 `xiaohongshu-post.md`，截断图片至 ≤9 张
+3. **随机等待 30–90s**
+4. 输出 JSON 载荷 + 写入 `xhs-publish-payload.json`
 
-除非用户明确说「直接发布 / 跳过确认」，否则：
-1. 展示标题、正文预览、图片列表
-2. 询问是否发布或修改
+**禁止**跳过此脚本直接 `publish_content`（除非用户明确 `--no-delay --no-ensure` 调试）。
 
-### Step 5: 调用 MCP 发布
+### Step 2: 检查登录
 
-使用 `publish_content`：
+MCP `check_login_status`（server 可能是 `project-0-follow-builders-xiaohongshu-mcp`）。
 
-| 参数 | 说明 |
-|------|------|
-| `title` | 来自 frontmatter，≤20 字 |
-| `content` | 正文（不含标题） |
-| `images` | **绝对路径**数组，按 page-01 … page-N 排序 |
-| `tags` | 可选，3–5 个话题 |
-| `visibility` | 默认 `公开可见` |
+未登录 → `get_login_qrcode` 扫码。
 
-图片路径示例：
+### Step 3: 发布
 
-```
-/Users/mengxp/Desktop/code/follow-builders/output/week-01-naval-ravikant/page-01.png
-```
+用 Step 1 输出的 **images 数组**（已截断）调用 `publish_content`：
 
-使用 `path.resolve` 或项目根目录拼接，**不要用相对路径**。
+- `title` / `content` / `tags` / `visibility` 来自载荷
+- **images 必须用载荷里的路径，不要用目录下全部 page-*.png**
 
-### Step 6: 汇报结果
+### Step 4: 汇报
 
-发布成功后告知：
-- 使用的标题与图片数量
-- 建议用户在小红书 App 核对是否显示
-- 若失败：建议 `-headless=false` 重试或检查风控
+标题、实际图片张数（如 9/11）、建议 App 核对。
 
-## 与 wisdom-weekly 串联
+## 首次设置（一次性）
 
-完整流水线：
-
-```
-/wisdom  →  生成 PDF/PNG + wechat-article.md
-    ↓
-/publish-xhs preview  →  生成 xiaohongshu-post.md 供审阅
-    ↓
-/publish-xhs  →  确认后 publish_content
+```bash
+bash tools/xiaohongshu-mcp/setup.sh
+bash tools/xiaohongshu-mcp/login.sh
 ```
 
-可在 wisdom-weekly 完成后主动提示：「是否执行 /publish-xhs preview？」
+## 若仍收风控预警
+
+再考虑 **方案 B**：[x-mcp 浏览器插件](https://github.com/xpzouying/x-mcp)。
 
 ## 注意事项
 
-- 同一账号不要在其他网页端同时登录，会踢掉 MCP 会话
-- 建议专用发布号、控制发帖频率
-- 首图用 `page-01.png`（封面），后续为内容页
-- 不要用违禁词；引流话术适度
+- 同一账号勿多网页端同时登录
+- 每周 1 条、勿固定同一分钟发
+- 首图 `page-01.png`

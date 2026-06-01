@@ -87,15 +87,14 @@ node .cursor/skills/wisdom-weekly/scripts/publish-wechat.js week-01-naval-ravika
 
 ```
 /wisdom
-/publish-xhs                    # ① 小红书（可自动）
+/publish-xhs                    # ① 小红书
 /generate-video                 # ② 生成 MP4
-/publish-wechat                 # ③ 可提前推草稿（仅文字+封面）
-【手动】视频号发表               # ④ 必须先发，否则公众号插不进视频
-【手动】草稿箱 → 插入 → 视频号    # ⑤
-【手动】公众号发表               # ⑥
+/publish-wechat                 # ③ 推草稿（含「本期视频」引导文案）
+【手动】视频号发表               # ④
+【手动】公众号发表               # ⑤
 ```
 
-**注意**：公众号里「插入视频号」只能在**视频号已发表**之后操作；脚本无法代劳。
+`wechat-article.md` 的「本期视频」格式见 `wisdom-weekly/wechat-format-rules.md`。公众号正文**勿**附 `sph` 链接；视频号 API 无法嵌入播放器。
 
 ## 常见错误
 
