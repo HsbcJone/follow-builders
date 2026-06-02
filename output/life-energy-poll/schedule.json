@@ -1,0 +1,35 @@
+{
+  "campaign": "life-energy-poll",
+  "isolated_from": "wisdom-weekly",
+  "interval_days": [1, 2],
+  "notes": [
+    {
+      "id": "note-01",
+      "status": "published",
+      "topic": "最影响状态的因素",
+      "published_via": "app_manual_with_poll"
+    },
+    {
+      "id": "note-02",
+      "status": "ready",
+      "topic": "最想改善哪一项",
+      "planned_after": "note-01",
+      "assets": ["cover.html", "page-01.png", "xiaohongshu-post.md"]
+    },
+    {
+      "id": "note-03",
+      "status": "pending",
+      "topic": "每天只记录一个数据"
+    },
+    {
+      "id": "note-04",
+      "status": "pending",
+      "topic": "什么都不想干的频率"
+    },
+    {
+      "id": "note-05",
+      "status": "pending",
+      "topic": "10秒记录会坚持吗"
+    }
+  ]
+}

@@ -14,11 +14,14 @@ function checkMcp() {
   return new Promise((resolve) => {
     const req = http.request(
       {
-        hostname: "localhost",
+        hostname: "127.0.0.1",
         port: PORT,
         path: "/mcp",
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json, text/event-stream",
+        },
         timeout: 3000,
       },
       (res) => resolve(res.statusCode >= 200 && res.statusCode < 500)
